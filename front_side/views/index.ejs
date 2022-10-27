@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title%></title>
+</head>
+<body>
+    <h1 id="titulo">Título</h1>
+    <table style="border: solid;">
+        <thead>
+            <tr>
+                <th>ra</th>
+                <th>nome</th>
+                <th>senha</th>
+                <th>turma</th>
+                <th>imagem</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% alunos.forEach(function(alunos){ %>
+                <tr>
+                    <td><%= alunos.RA %></td>
+                    <td><%= alunos.nome %></td>
+                    <td><%= alunos.senha %></td>
+                    <td><%= alunos.turma_aluno %></td>
+                    <td><%= alunos.image_aluno %></td>
+                </tr>
+            <% }); %>
+        </tbody> 
+    </table>
+</body>
+</html>

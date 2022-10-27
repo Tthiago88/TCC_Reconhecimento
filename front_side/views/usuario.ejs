@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario</title>
+</head>
+<body>
+    <form action="/insert" method="post">
+        <label for="ra">RA:</label>
+        <input type="text" placeholder="nome" name="ra" required>
+        <br>
+        <label for="nome">nome:</label>
+        <input type="text" placeholder="nome" name="nome" required>
+        <br>
+        <label for="senha">senha:</label>
+        <input type="text" placeholder="CPF" name="senha" required>
+        <br>
+        <label for="turma">turma:</label>
+        <input type="text" placeholder="responsavel" name="turma" required>
+        <br>
+        <label for="img">imagem:</label>
+        <input type="text" placeholder="responsavel" name="img" required>
+        <br>
+        <button type="submit">inserir</button>
+    </form>
+    <hr>
+    <h3>Teste de updade</h3>
+    <form action="/update" method="post">
+        <label for="nome">nome:</label>
+        <input type="text" placeholder="nome" name="nome" required>
+        <br>
+        <label for="cpf">cpf:</label>
+        <input type="text" placeholder="CPF" name="cpf" required>
+        <br>
+        <label for="respon">responsavel:</label>
+        <input type="text" placeholder="responsavel" name="respon" required>
+        <br>
+        <label for="id">id:</label>
+        <input type="text" placeholder="id" name="id" required>
+        <button type="submit">alterar</button>
+        <button type="submit">alterar</button>
+    </form>
+    <br>
+    <!-- ISSO É IMPORTANTE PARA RECEBER OS DADOS     -->
+    <p><%= (typeof mensagem != "undefined" ? mensagem : "")%> </p>   
+</body>
+</html>
