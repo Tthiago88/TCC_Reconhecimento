@@ -7,7 +7,7 @@ var mysqlConnection = mysql.createConnection({
     host:'localhost',
     user:'root',
     password:'admonline',
-    database:'teste'
+    database:'sist_precenca'
 });
 
 mysqlConnection.connect((erro)=>{

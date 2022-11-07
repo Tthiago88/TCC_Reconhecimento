@@ -62,7 +62,7 @@ app.use((req, res, next) =>{
 
 // Select no banco de dados
 app.get('/select' , (req, res) => {
-    con.query('select * from aluno', (err, rows, fields) => {
+    con.query('select * from Aluno_tb', (err, rows, fields) => {
     if (!err)
     res.render('index.ejs', {title:'select', alunos: rows});
     else
@@ -70,7 +70,7 @@ app.get('/select' , (req, res) => {
     })
 } );
 
-// Inserir na tabela -- FUNCIONA
+// Inserir na tabela ALUNO -- FUNCIONA
 app.post('/insert', (req, res) => {
     // let data = {nome: req.body.nome, cpf: req.body.cpf, responsavel: req.body.respon};
     var ra = req.body.ra;
@@ -78,18 +78,20 @@ app.post('/insert', (req, res) => {
     var senha = req.body.senha;
     var turma_aluno = req.body.turma;
     var image = req.body.img;
-    let stat = "INSERT INTO aluno(RA, nome, senha, turma_aluno, image_aluno) VALUES (?, ?, ?, ?, ?)";
-    con.query(stat, [ra, nome, senha, turma_aluno, image], (err, result) =>{
+    var prof = req.body.ra_prof;
+    var colaborador = 1;
+    let stat = "INSERT INTO Aluno_tb(RA, nome, senha, turma_aluno, image_aluno, Colaborador_tb_idColaborador, Professores_RA) VALUES (?, ?, ?, ?, ?,?,?)";
+    con.query(stat, [ra, nome, senha, turma_aluno, image, colaborador, prof], (err, result) =>{
         if(!err){
             res.send("cadastro criado com sucesso");
             console.log("usuário cadatrado com sucesso");
-            console.log(ra ,nome, senha, turma_aluno, image);
+            console.log(ra ,nome, senha, turma_aluno, image, colaborador, prof);
         }else{
             console.log(err);
         }
     });
 });
-// Alterar o dados -- AINDA NÃO FUNCIONA
+// Alterar tabela ALUNO -- AINDA NÃO FUNCIONA
 app.post('/update',(req, res) =>{
     var nome = req.body.nome;
     var cpf = req.body.cpf;
