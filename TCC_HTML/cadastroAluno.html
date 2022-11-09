@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,0">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Cadastro Aluno</title>
+</head>
+
+<body>
+        <nav class="navbar bg-light">
+            <div class="container-fluid">
+                <div>            
+                    <a class="navbar-brand">Classroom</a>
+                    <a href="cadastroProfessor.html" class="nav-prof navbar-brand">Cadastro Professor</a>
+                </div>
+                <form class="d-flex" role="search">
+                    <button type="button" class="btn btn-outline-danger">Sair</button>
+                </form>
+            </div>
+        </nav>
+        <div class="body">
+            <h1 class="titulo">Cadastro de Alunos</h1>
+            <div class="geral">
+                <div class="home">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Nome</label>
+                        <input type="nome" class="form-control" id="exampleFormControlInput1" placeholder="Digite o nome">
+                    </div>
+                    <div class="form">
+                        <label for="exampleFormControlInput1" class="form-label">Turma</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Escolha uma turma</option>
+                            <option value="1">SI8P13</option>
+                            <option value="2">SI7P13</option>
+                            <option value="3">SI6P13</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="home1">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
+                        <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA">
+                    </div>
+                    <div class="form">
+                        <label for="inputPassword" class="form-label">Senha</label>
+                    <div>
+                        <input type="password" class="form-control" id="inputPassword" placeholder="Digite a senha">
+                        </div>
+                    </div>
+                </div>
+                <div class="input">
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                    </div>
+                </div>
+                <center>
+                    <button class="btn-enviar btn btn-outline-secondary" type="submit">Enviar</button>
+                </center>
+            </div>
+    </div>    
+</body>
