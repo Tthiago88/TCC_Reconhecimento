@@ -16,10 +16,60 @@ const con = require('./conection');
 
 app.set('view engine', 'ejs');
 
-//Página inicial
-app.get("/", function(req, res){  
-    res.send('login');
+// Cria a sessção de usuário
+app.use(session({
+    secret:"user1",
+    saveUninitialized: true,
+    resave: true,
+    })
+);
+
+// Método de login (FUNCIONA +OU-, MAS FUNCIONA) 
+app.post("/", function(req, res){
+    var login = req.body.nome;
+    var senha = req.body.senha;
+    let = statement = "SELECT RA, nome, senha FROM Aluno_tb WHERE RA = '"+login+"' AND senha = '"+senha+"'";
+    let = statement2 = "SELECT RA, senha FROM Professores WHERE RA = '"+login+"' AND senha = '"+senha+"'";
+    let = statement3 = "SELECT nome, senha FROM Colaborador_tb WHERE nome = '"+login+"' AND senha = '"+senha+"'";
+    if(login && senha){
+        con.query(statement, function(err, data){
+            if(data.length > 0){
+                console.log("usuario "+login+" logado");
+                res.render('usuario');
+                res.end();
+                req.session.login = login;
+            } else{
+            }
+        })
+        con.query(statement2, function(err, data){
+            if(data.length > 0){
+                console.log("usuario"+login+"logado");
+                res.render('usuario');
+                req.session.login = login;
+                res.end();
+            } else{
+            }
+        })
+        con.query(statement3, function(err, data){
+            if(data.length > 0){
+                console.log('usuario logado');
+                res.render('usuario');
+                req.session.login = login;
+                res.end();
+            } else{
+            }
+        })
+    }
 });
+
+//Página inicial - Mudado para a página de login
+app.get("/", function(req, res){
+    // if(!req.session.login){
+    //     return res.redirect('/');
+    // }  
+    res.render('login.ejs');
+});
+
 // Carregar o arquivo EJS
 app.get('/index', function(req, res){  
     res.render('index.ejs', {title: "Index"});
@@ -29,36 +79,22 @@ app.get('/usuario', function(req, res){
     res.render('usuario');
 });
 
-app.get('/login', function(req, res){
-    res.render('login');
-});
+// app.get('/login', function(req, res){
+//     res.render('login');
+// });
 
 // middlewares
 app.use(express.urlencoded({extended: true}));
 app.use(express(json()));
 app.use(express.static(path.join(__dirname, 'static')));
 
-app.use(session({
-    secret:"chave",
-    saveUninitialized: true,
-    resave: true,
-    })
-);
 
-app.use((req, res, next) =>{
-    res.locals.message = req.session.message;
-    delete req.session.message;
-    next();
-})
 
-// app.post('/autent', function(req, res){
-//     let user = req.body.nome;
-//     let pasw = req.body.senha;
-//     if(ser && pasw){
-//     con.query("SELECT * FROM aln")  
-//     }
-
-// });
+// app.use((req, res, next) =>{
+//     res.locals.message = req.session.message;
+//     delete req.session.message;
+//     next();
+// })
 
 // Select no banco de dados
 app.get('/select' , (req, res) => {
@@ -69,6 +105,16 @@ app.get('/select' , (req, res) => {
     console.log(err);
     })
 } );
+
+// teste de SELECT
+app.get('/n', (req, res) => {
+    con.query("SELECT turma FROM Lista_chamada", (err, rows) =>{
+        if(!err){
+            res.render('tela buscar', {lista: rows});
+            console.log(rows);
+        }
+    })
+})
 
 // Inserir na tabela ALUNO -- FUNCIONA
 app.post('/insert', (req, res) => {

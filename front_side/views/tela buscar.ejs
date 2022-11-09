@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <title>listar - teste</title>
+</head>
+<body>
+    <h2>Teste tela busca</h2>
+    <form method="post">
+        <label for="turma">turma:</label>
+        <select name="turma">
+            <% lista.forEach(function(lista){ %> 
+            <option value="" disabled>selecione uma turma</option>
+            <option value="">  <%= lista.turma %> </option>
+            <% }); %>
+        </select>
+        <label for="data">data:</label>
+        <select name="data" type="select">
+            <option value="" disabled>selecione uma data</option>
+        </select>    
+        <input type="submit">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <!-- <th scope="col">#</th> -->
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <!-- <th scope="row">1</th> -->
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+        </table> 
+    </form>
+</body>
+</html>
