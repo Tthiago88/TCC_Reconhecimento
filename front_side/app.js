@@ -125,10 +125,10 @@ app.post('/insert', (req, res) => {
     var senha = req.body.senha;
     var turma_aluno = req.body.turma;
     var image = req.body.img;
-    var prof = req.body.ra_prof;
+    // var prof = req.body.ra_prof;
     var colaborador = 1;
-    let stat = "INSERT INTO Aluno_tb(RA, nome, senha, turma_aluno, image_aluno, Colaborador_tb_idColaborador, Professores_RA) VALUES (?, ?, ?, ?, ?,?,?)";
-    con.query(stat, [ra, nome, senha, turma_aluno, image, colaborador, prof], (err, result) =>{
+    let stat = "INSERT INTO Aluno_tb(RA, nome, senha, turma_aluno, image_aluno, Colaborador_tb_idColaborador) VALUES (?, ?, ?, ?, ?,?)";
+    con.query(stat, [ra, nome, senha, turma_aluno, image, colaborador], (err, result) =>{
         if(!err){
             res.send("cadastro criado com sucesso");
             console.log("usuário cadatrado com sucesso");
