@@ -1,0 +1,38 @@
+.navbar{
+    display: flex;
+    padding: 1rem;
+    margin-bottom: 4rem;
+}
+.geral{
+    margin: 0 auto;
+    max-width: 35%;
+    border-radius: .5rem;
+    border: 1px solid #aaa;
+    padding: 2rem;
+}
+.home{
+    display:flex;
+}
+.mb-3{
+    padding-top: 1.5rem;
+}
+.body{
+    padding: 1rem;
+}
+.titulo{
+    display: block;
+    text-align: center;
+    font-family: arial,sans-serif;
+    font-size: 2rem;
+}
+.titulo:after {
+    content: ' ';
+    display: block;
+    width: 100%;
+    height: .1rem;
+    margin-top: 1rem;
+    background: -webkit-linear-gradient(left, rgba(27, 27, 27, 0) 0%,rgba(27,27,27,0.8) 20%,rgba(27,27,27,1) 53%,rgba(27,27,27,0.8) 79%,rgba(27,27,27,0) 100%);
+}
+.button{
+    padding-top: 2rem;
+}

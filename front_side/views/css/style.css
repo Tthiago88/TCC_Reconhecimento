@@ -1,0 +1,47 @@
+.navbar{
+    display: flex;
+    padding: 1rem;
+}
+.geral{
+    margin: 0 auto;
+    max-width: 42%;
+    border-radius: .5rem;
+    border: 1px solid #aaa;
+    padding: 2rem;
+}
+.home{
+    display:flex;
+}
+.home1{
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: flex-start;
+}
+.titulo{
+    text-align: center;
+    padding: 1rem;
+}
+.mb-3{
+    width: 15rem;
+    margin-right: 1rem;
+}
+.form{
+    width: 15rem;
+}
+.btn-enviar{
+    margin-top: 1.5rem;
+}
+.input{
+    margin-top: 1rem;
+}
+.body{
+    padding: 1rem;
+}
+.nav-inicio{
+    display: flex;
+}
+.nav-prof{
+    padding-left: 7rem;
+    padding-top: .6rem;
+    font-size: medium;
+}

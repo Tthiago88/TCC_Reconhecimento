@@ -4,12 +4,18 @@ const session = require('express-session');
 const bodyparser = require('body-parser');
 const path = require('path');
 var app = express();
+// const bootstrap = require('bootstrap');
 
+// middlewares
+app.use(express.urlencoded({extended: true}));
+app.use(express(json()));
+app.use(express.static(path.join(__dirname, 'static')));
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(bodyparser.json());
 
 //Aponta para o módulo do Bootstrap
-app.use(express.static(path.join(__dirname, "node_modules/bootstrap/dist/")));
+app.use(express.static(path.join(__dirname , "node_modules/bootstrap/dist/")));
+app.use(express.static(__dirname + '/views'));
 
 //Usa o arquivo que conecta com o banco de dados
 const con = require('./conection');
@@ -26,7 +32,7 @@ app.use(session({
 
 // Método de login (FUNCIONA +OU-, MAS FUNCIONA) 
 app.post("/", function(req, res){
-    var login = req.body.nome;
+    var login = req.body.ra;
     var senha = req.body.senha;
     let = statement = "SELECT RA, nome, senha FROM Aluno_tb WHERE RA = '"+login+"' AND senha = '"+senha+"'";
     let = statement2 = "SELECT RA, senha FROM Professores WHERE RA = '"+login+"' AND senha = '"+senha+"'";
@@ -35,7 +41,7 @@ app.post("/", function(req, res){
         con.query(statement, function(err, data){
             if(data.length > 0){
                 console.log("usuario "+login+" logado");
-                res.render('usuario');
+                res.render('cadastroAluno');
                 res.end();
                 req.session.login = login;
             } else{
@@ -44,7 +50,7 @@ app.post("/", function(req, res){
         con.query(statement2, function(err, data){
             if(data.length > 0){
                 console.log("usuario"+login+"logado");
-                res.render('usuario');
+                res.render('cadastroProfessor');
                 req.session.login = login;
                 res.end();
             } else{
@@ -79,17 +85,6 @@ app.get('/usuario', function(req, res){
     res.render('usuario');
 });
 
-// app.get('/login', function(req, res){
-//     res.render('login');
-// });
-
-// middlewares
-app.use(express.urlencoded({extended: true}));
-app.use(express(json()));
-app.use(express.static(path.join(__dirname, 'static')));
-
-
-
 // app.use((req, res, next) =>{
 //     res.locals.message = req.session.message;
 //     delete req.session.message;
@@ -110,7 +105,13 @@ app.get('/select' , (req, res) => {
 app.get('/n', (req, res) => {
     con.query("SELECT turma FROM Lista_chamada", (err, rows) =>{
         if(!err){
-            res.render('tela buscar', {lista: rows});
+            res.render('tela buscar', {lista_turma: rows});
+            console.log(rows);
+        }
+    })
+    con.query("SELECT data FROM Lista_chamada", (err, rows) =>{
+        if(!err){
+            res.render('tela buscar', {lista_data: rows});
             console.log(rows);
         }
     })
@@ -174,6 +175,29 @@ app.post('/update',(req, res) =>{
 //         }
 //     });
 // });
+
+// Inserir na tabela PROFESSOR -- 
+app.post('/insertProf', (req, res) => {
+    var ra = req.body.raProf;
+    var nome = req.body.nome;
+    var senha = req.body.senha;
+    var colaborador = 1;
+    let stat = "INSERT INTO Professores(RA, nome, senha, Colaborador_tb_idColaborador) VALUES (?, ?, ?, ?)";
+    con.query(stat, [ra, nome, senha, colaborador], (err, result) =>{
+        if(!err){
+            res.send({mensagem:"cadastro criado com sucesso"});
+            console.log("professor cadatrado com sucesso");
+            console.log(ra ,nome, senha, colaborador);
+        }else{
+            console.log(err);
+        }
+    });
+});
+
+// let data = new Date();
+// console.log(data)
+// let dataFormatada = ((data.getFullYear() )) + "/" + ((data.getMonth() + 1)) + "/" + data.getDate(); 
+// console.log(dataFormatada);
 
 //criar porta de localhost
 const port = process.env.PORT || 8080;

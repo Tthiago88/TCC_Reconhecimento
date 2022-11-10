@@ -12,14 +12,16 @@
     <form method="post">
         <label for="turma">turma:</label>
         <select name="turma">
-            <% lista.forEach(function(lista){ %> 
+            <% lista_turma.forEach(function(lista){ %> 
             <option value="" disabled>selecione uma turma</option>
-            <option value="">  <%= lista.turma %> </option>
+            <option value="">  <%= lista_turma.turma %> </option>
             <% }); %>
         </select>
         <label for="data">data:</label>
-        <select name="data" type="select">
-            <option value="" disabled>selecione uma data</option>
+        <% lista_data.forEach(function(lista){ %> 
+            <option value="" disabled>selecione uma daata</option>
+            <option value="">  <%= lista_data.data %> </option>
+            <% }); %>
         </select>    
         <input type="submit">
         <table class="table table-hover">
