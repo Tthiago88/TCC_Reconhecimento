@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Cadastro Professor</title>
 </head>
-
     <body>  
         <nav class="navbar bg-light">
             <div class="container-fluid">
@@ -45,6 +44,11 @@
                     <center>
                         <button class="btn-enviar btn btn-outline-secondary" type="submit">Enviar</button>
                     </center>
+                    <% if(mensagem == true){ %>
+                        <script>
+                            window.alert('deu certo?');
+                        </script>
+                    <% };  %>  
                 </div>
             </form>    
         </div>    

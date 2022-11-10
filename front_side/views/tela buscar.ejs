@@ -2,6 +2,7 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Language" content="pt-br, en">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
@@ -11,18 +12,21 @@
     <h2>Teste tela busca</h2>
     <form method="post">
         <label for="turma">turma:</label>
+        <!-- ESSA PARTE FUNCIONA -->
         <select name="turma">
-            <% lista_turma.forEach(function(lista){ %> 
             <option value="" disabled>selecione uma turma</option>
-            <option value="">  <%= lista_turma.turma %> </option>
+            <% lista.forEach(function(lista){ %> 
+            <option value="">  <%= lista.turma %> </option>
             <% }); %>
         </select>
         <label for="data">data:</label>
-        <% lista_data.forEach(function(lista){ %> 
+        <select name="data">
             <option value="" disabled>selecione uma daata</option>
-            <option value="">  <%= lista_data.data %> </option>
+            <% lista.forEach(function(lista){ %>
+            <option value="">  <%= lista.data %> </option>
             <% }); %>
-        </select>    
+        </select>
+        <!-- FIM DO CÓDIGO DE TESTE -->
         <input type="submit">
         <table class="table table-hover">
             <thead>

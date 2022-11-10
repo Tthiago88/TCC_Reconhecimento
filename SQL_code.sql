@@ -26,24 +26,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `sist_precenca`.`Professores`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sist_precenca`.`Professores` (
-  `RA` VARCHAR(7) NOT NULL,
-  `nome` VARCHAR(45) NOT NULL,
-  `senha` VARCHAR(20) NOT NULL,
-  `Colaborador_tb_idColaborador` INT NOT NULL,
-  PRIMARY KEY (`RA`, `Colaborador_tb_idColaborador`),
-  INDEX `fk_Professores_Colaborador_tb1_idx` (`Colaborador_tb_idColaborador` ASC) VISIBLE,
-  CONSTRAINT `fk_Professores_Colaborador_tb1`
-    FOREIGN KEY (`Colaborador_tb_idColaborador`)
-    REFERENCES `sist_precenca`.`Colaborador_tb` (`idColaborador`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `sist_precenca`.`Aluno_tb`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sist_precenca`.`Aluno_tb` (
@@ -53,18 +35,11 @@ CREATE TABLE IF NOT EXISTS `sist_precenca`.`Aluno_tb` (
   `turma_aluno` VARCHAR(45) NOT NULL,
   `image_aluno` VARCHAR(100) NOT NULL,
   `Colaborador_tb_idColaborador` INT NOT NULL,
-  `Professores_RA` VARCHAR(7) NOT NULL,
-  PRIMARY KEY (`RA`, `Colaborador_tb_idColaborador`, `Professores_RA`),
+  PRIMARY KEY (`RA`, `Colaborador_tb_idColaborador`),
   INDEX `fk_Aluno_tb_Colaborador_tb1_idx` (`Colaborador_tb_idColaborador` ASC) VISIBLE,
-  INDEX `fk_Aluno_tb_Professores1_idx` (`Professores_RA` ASC) VISIBLE,
   CONSTRAINT `fk_Aluno_tb_Colaborador_tb1`
     FOREIGN KEY (`Colaborador_tb_idColaborador`)
     REFERENCES `sist_precenca`.`Colaborador_tb` (`idColaborador`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Aluno_tb_Professores1`
-    FOREIGN KEY (`Professores_RA`)
-    REFERENCES `sist_precenca`.`Professores` (`RA`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -102,6 +77,24 @@ CREATE TABLE IF NOT EXISTS `sist_precenca`.`Lista_chamada` (
   CONSTRAINT `fk_Lista_chamada_Aluno_tb1`
     FOREIGN KEY (`Aluno_tb_RA`)
     REFERENCES `sist_precenca`.`Aluno_tb` (`RA`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `sist_precenca`.`Professores`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sist_precenca`.`Professores` (
+  `RA` VARCHAR(7) NOT NULL,
+  `nome` VARCHAR(45) NOT NULL,
+  `senha` VARCHAR(20) NOT NULL,
+  `Colaborador_tb_idColaborador` INT NOT NULL,
+  PRIMARY KEY (`RA`, `Colaborador_tb_idColaborador`),
+  INDEX `fk_Professores_Colaborador_tb1_idx` (`Colaborador_tb_idColaborador` ASC) VISIBLE,
+  CONSTRAINT `fk_Professores_Colaborador_tb1`
+    FOREIGN KEY (`Colaborador_tb_idColaborador`)
+    REFERENCES `sist_precenca`.`Colaborador_tb` (`idColaborador`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
