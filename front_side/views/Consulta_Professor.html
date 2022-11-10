@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta nome="viewport" content="width=device-width, initial-scale=1,0">
+    <title>Lista Presença</title>
+    <!-- <script src="./projeto1.js"></script> -->
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand">Navbar</a>
+          <form class="d-flex" role="search">
+                <button type="button" class="btn btn-outline-danger">Sair</button>
+            </form>
+          </form>
+        </div>
+      </nav>
+    <div>
+    <h1>LISTA PRESENÇA</h1>
+    
+    <div class="home">
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">DATA:</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/aaaa:">
+            <br>
+            <br>
+            <h5> Selecione a Turma:</h5>
+            <select class="form-select" aria-label="Default select example">
+                <option value="1">SI8P13</option>
+                <option value="2">SI7P13</option>
+                <option value="3">SI6P13</option>
+            </select>
+    <br>
+    <CENter>
+    <button class="btn btn-outline-success" type="submit">Consultar</button>
+    
+    <br>
+    <br>
+    <br>
+
+<!--
+    <br>
+    <br>
+    <table style="border: 2px solid black" width= 1300px>
+       
+        <tr>
+        <th>   NOME  </th>
+        <th>   RA   </th>
+        <th>  TURMA  </th>
+        <th>   DISCIPLINA   </th>
+        <th> DATA </th>
+        <th> PRESENÇA </th>
+        </tr>
+        <BR>
+        <tr>
+        <td>   JOÃO   </td>
+        <td>   N71017   </td>
+        <td>   SI8P13   </td>
+        <td> BANCO DE DADOS  </td>
+        <td>   10/10/2022   </td>
+        <td>    PRESENTE     </td>
+        </tr>
+
+        </table>
+   
+-->
+
+
+    <table class="table table-hover" style="border: 2px solid black">
+        <tr>
+            <th>   NOME  </th>
+            <th>   RA   </th>
+            <th>  TURMA  </th>
+            <th>   DISCIPLINA   </th>
+            <th> DATA </th>
+            <th> PRESENÇA </th>
+            </tr>
+            <BR>
+                <tr>
+                <td>   JOÃO   </td>
+                <td>   N71017   </td>
+                <td>   SI8P13   </td>
+                <td> BANCO DE DADOS  </td>
+                <td>   10/10/2022   </td>
+               <td><input type="checkbox"> </td>
+                </tr>
+
+                <tr>
+                    <td>   GABRIEL   </td>
+                    <td>   N7526F4   </td>
+                    <td>   SI8P13   </td>
+                    <td> BANCO DE DADOS  </td>
+                    <td>   10/10/2022   </td>
+                    <td><input type="checkbox"></td>
+                    </tr>
+      </table>
+    
+    <button class="btn btn-outline-success" type="submit">ENVIAR</button>
+    </CEnter>
+</body>
+
+</html>
