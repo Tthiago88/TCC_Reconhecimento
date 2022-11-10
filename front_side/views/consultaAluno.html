@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta nome="viewport" content="width=device-width, initial-scale=1,0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="styleLista.css">
+    <title>Aluno</title>
+</head>
+
+<body>
+    <nav class="navbar bg-light">
+        <div class="container-fluid">
+            <div>            
+                <a href="homeColaborador.html" class="navbar-brand">Classroom</a>
+            </div>
+            <form class="d-flex" role="search">
+                <button type="button" class="btn btn-outline-danger">Sair</button>
+            </form>
+        </div>
+    </nav>
+    <div class="geral-lista">
+        <h1 class="title">Consulta de Frequência</h1>
+        <div class="home">
+            <div class="form">
+                <label for="exampleFormControlInput1" class="form-label">Escolha uma data</label>
+                <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/yyy"></inpinput>
+            </div>
+            <div class="form2">
+                <label for="exampleFormControlInput1" class="form-label">Discipina</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Escolha uma Discipina</option>
+                    <option value="1">SI8P13</option>
+                    <option value="2">SI7P13</option>
+                    <option value="3">SI6P13</option>
+                </select>
+            </div>
+            <div class="button-enviar">
+                <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
+            </div>
+        </div>
+        <div class="table-dados">
+            <table class="table table-bordered" >
+                <tr>
+                    <th>DATA</th>
+                    <th>RA</th>
+                    <th>TURMA</th>
+                    <th>DISCIPLINA</th>
+                </tr>
+            </table>
+        </div>
+    </div>
