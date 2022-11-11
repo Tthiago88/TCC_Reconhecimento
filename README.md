@@ -5,5 +5,4 @@ Trabalho de conclusão de curso de um protótipo que realiza reconhecimento de r
 @autors: Thiago Adriano 
          Davi de Lucena
          Rafael Bruce
-         Alessandro Araújo
  
