@@ -41,7 +41,7 @@ app.post("/", function(req, res){
         con.query(statement, function(err, data){
             if(data.length > 0){
                 console.log("usuario "+login+" logado");
-                res.redirect('/cadastroAluno');
+                res.render('cadastroAluno');
                 res.end();
                 req.session.login = login;
             } else{
@@ -50,7 +50,7 @@ app.post("/", function(req, res){
         con.query(statement2, function(err, data){
             if(data.length > 0){
                 console.log("usuario"+login+"logado");
-                res.redirect('cadastroProfessor');
+                res.render('cadastroProfessor');
                 req.session.login = login;
                 res.end();
             } else{
@@ -79,7 +79,11 @@ app.get("/", function(req, res){
 //REQUISIÇÃO CRIADA APENAS PARA A TELA DE LOGIN (CASO SEJA ALUNO)
 app.get("/cadastroAluno", (req, res) =>{
     con.query("SELECT turma_aluno FROM Aluno_tb", (err, rows) =>{
-        res.render('cadastroAluno', {retorno:rows});
+        if(!err){
+            res.render('cadastroAluno', {retorno:rows});
+        } else{
+            res.end();
+        }    
     })
 });
 
@@ -137,7 +141,8 @@ app.post('/insert', (req, res) => {
     let stat = "INSERT INTO Aluno_tb(RA, nome, senha, turma_aluno, image_aluno, Colaborador_tb_idColaborador) VALUES (?, ?, ?, ?, ?, ?)";
     con.query(stat, [ra, nome, senha, turma_aluno, image, colaborador], (err, result) =>{
         if(!err){
-            res.send("cadastro criado com sucesso");
+            // res.send("cadastro criado com sucesso");
+            res.render('cadastroAluno', alert("cadastro criado com sucesso"));
             console.log("usuário cadatrado com sucesso");
             console.log(ra ,nome, senha, turma_aluno, image, colaborador);
         }else{
@@ -154,7 +159,7 @@ app.post('/update',(req, res) =>{
     let stat = "UPDATE aluno SET nome='"+nome+"', cpf= '"+cpf+"', responsavel= '"+responsavel+"' WHERE id_aluno= "+id+";";
     con.query(stat, (err, result) =>{
         if(!err){
-            res.render('usuario', {mensagem:"usuario alterado"});
+            res.send('usuario');
             console.log("usuário alterado com sucesso");
             console.log(nome, cpf, responsavel);
         }else{
