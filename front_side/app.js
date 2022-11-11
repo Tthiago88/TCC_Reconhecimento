@@ -169,24 +169,24 @@ app.post('/update',(req, res) =>{
     });
 });
 
-// DELETE usuario
-// app.post('/update',(req, res) =>{
-//     var nome = req.body.nome;
-//     var cpf = req.body.cpf;
-//     var responsavel = req.body.respon;
-//     var id = req.body.id;
-//     let stat = "DELETE aluno WHERE id_aluno= "+id+";";
-//     con.query(stat, (err, result) =>{
-//         if(!err){
-//             res.render('usuario', {mensagem:"Usuário excluído com sucesso"});
-//             console.log("usuário excluido com sucesso");
-//             console.log(nome, cpf, responsavel);
-//         }else{
-//             res.render('usuario', {mensagem:"Erro ao excluir o usuário"});
-//             console.log(err);
-//         }
-//     });
-// });
+//DELETE usuario
+app.post('/update',(req, res) =>{
+    var nome = req.body.nome;
+    var cpf = req.body.cpf;
+    var responsavel = req.body.respon;
+    var id = req.body.id;
+    let stat = "DELETE aluno WHERE id_aluno= "+id+";";
+    con.query(stat, (err, result) =>{
+        if(!err){
+            res.render('usuario', {mensagem:"Usuário excluído com sucesso"});
+            console.log("usuário excluido com sucesso");
+            console.log(nome, cpf, responsavel);
+        }else{
+            res.render('usuario', {mensagem:"Erro ao excluir o usuário"});
+            console.log(err);
+        }
+    });
+});
 
 // Inserir na tabela PROFESSOR -- FUNCIONA
 app.post('/insertProf', (req, res) => {
