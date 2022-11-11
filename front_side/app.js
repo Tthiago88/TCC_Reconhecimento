@@ -41,7 +41,7 @@ app.post("/", function(req, res){
         con.query(statement, function(err, data){
             if(data.length > 0){
                 console.log("usuario "+login+" logado");
-                res.render('cadastroAluno');
+                res.redirect('/cadastroAluno');
                 res.end();
                 req.session.login = login;
             } else{
@@ -50,7 +50,7 @@ app.post("/", function(req, res){
         con.query(statement2, function(err, data){
             if(data.length > 0){
                 console.log("usuario"+login+"logado");
-                res.render('cadastroProfessor');
+                res.redirect('cadastroProfessor');
                 req.session.login = login;
                 res.end();
             } else{
@@ -74,6 +74,13 @@ app.get("/", function(req, res){
     //     return res.redirect('/');
     // }  
     res.render('login.ejs');
+});
+
+//REQUISIÇÃO CRIADA APENAS PARA A TELA DE LOGIN (CASO SEJA ALUNO)
+app.get("/cadastroAluno", (req, res) =>{
+    con.query("SELECT turma_aluno FROM Aluno_tb", (err, rows) =>{
+        res.render('cadastroAluno', {retorno:rows});
+    })
 });
 
 // Carregar o arquivo EJS
@@ -103,18 +110,18 @@ app.get('/select' , (req, res) => {
 
 // teste de SELECT
 app.get('/n', (req, res) => {
-    con.query("SELECT turma FROM Lista_chamada", (err, rows) =>{
+    con.query("SELECT turma, data FROM Lista_chamada", (err, rows) =>{
         if(!err){
-            res.render('tela buscar', {lista_turma: rows});
+            res.render('tela buscar', {lista: rows});
             console.log(rows);
         }
     })
-    con.query("SELECT data FROM Lista_chamada", (err, rows) =>{
-        if(!err){
-            res.render('tela buscar', {lista_data: rows});
-            console.log(rows);
-        }
-    })
+    // con.query("SELECT data FROM Lista_chamada", (err, rows) =>{
+    //     if(!err){
+    //         res.render('tela buscar', {lista_data: rows});
+    //         console.log(rows);
+    //     }
+    // })
 })
 
 // Inserir na tabela ALUNO -- FUNCIONA
@@ -127,12 +134,12 @@ app.post('/insert', (req, res) => {
     var image = req.body.img;
     // var prof = req.body.ra_prof;
     var colaborador = 1;
-    let stat = "INSERT INTO Aluno_tb(RA, nome, senha, turma_aluno, image_aluno, Colaborador_tb_idColaborador) VALUES (?, ?, ?, ?, ?,?)";
+    let stat = "INSERT INTO Aluno_tb(RA, nome, senha, turma_aluno, image_aluno, Colaborador_tb_idColaborador) VALUES (?, ?, ?, ?, ?, ?)";
     con.query(stat, [ra, nome, senha, turma_aluno, image, colaborador], (err, result) =>{
         if(!err){
             res.send("cadastro criado com sucesso");
             console.log("usuário cadatrado com sucesso");
-            console.log(ra ,nome, senha, turma_aluno, image, colaborador, prof);
+            console.log(ra ,nome, senha, turma_aluno, image, colaborador);
         }else{
             console.log(err);
         }
@@ -176,7 +183,7 @@ app.post('/update',(req, res) =>{
 //     });
 // });
 
-// Inserir na tabela PROFESSOR -- 
+// Inserir na tabela PROFESSOR -- FUNCIONA
 app.post('/insertProf', (req, res) => {
     var ra = req.body.raProf;
     var nome = req.body.nome;
@@ -185,7 +192,7 @@ app.post('/insertProf', (req, res) => {
     let stat = "INSERT INTO Professores(RA, nome, senha, Colaborador_tb_idColaborador) VALUES (?, ?, ?, ?)";
     con.query(stat, [ra, nome, senha, colaborador], (err, result) =>{
         if(!err){
-            res.send({mensagem:"cadastro criado com sucesso"});
+            res.send({mensagem: true});
             console.log("professor cadatrado com sucesso");
             console.log(ra ,nome, senha, colaborador);
         }else{

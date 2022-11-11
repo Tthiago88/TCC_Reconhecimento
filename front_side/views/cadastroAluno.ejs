@@ -24,41 +24,43 @@
         <div class="body">
             <h1 class="titulo">Cadastro de Alunos</h1>
             <div class="geral">
-                <div class="home">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Nome</label>
-                        <input type="nome" class="form-control" id="exampleFormControlInput1" placeholder="Digite o nome" name="nome">
-                    </div>
-                    <div class="form">
-                        <label for="exampleFormControlInput1" class="form-label">Turma</label>
-                        <select class="form-select" aria-label="Default select example" name="turma">
-                            <option selected>Escolha uma turma</option>
-                            <option value="1">SI8P13</option>
-                            <option value="2">SI7P13</option>
-                            <option value="3">SI6P13</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="home1">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
-                        <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="ra">
-                    </div>
-                    <div class="form">
-                        <label for="inputPassword" class="form-label">Senha</label>
-                    <div>
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Digite a senha" name="senha">
+                <form action="/insert" method="post">
+                    <div class="home">
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Nome</label>
+                            <input type="nome" class="form-control" id="exampleFormControlInput1" placeholder="Digite o nome" name="nome">
+                        </div>
+                        <div class="form">
+                            <label for="exampleFormControlInput1" class="form-label">Turma</label>
+                            <select class="form-select" aria-label="Default select example" name="turma">
+                                <option selected disabled>Escolha uma turma</option>
+                                <% retorno.forEach(function(retorno){ %>
+                                <option value=<%retorno.turma_aluno%>>  <%= retorno.turma_aluno %> </option>
+                                <% }); %>
+                            </select>
                         </div>
                     </div>
-                </div>
-                <div class="input">
-                    <div class="input-group">
-                        <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="img">
+                    <div class="home1">
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
+                            <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="ra">
+                        </div>
+                        <div class="form">
+                            <label for="inputPassword" class="form-label">Senha</label>
+                        <div>
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Digite a senha" name="senha">
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <center>
-                    <button class="btn-enviar btn btn-outline-secondary" type="submit">Enviar</button>
-                </center>
+                    <div class="input">
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="img">
+                        </div>
+                    </div>
+                    <center>
+                        <button class="btn-enviar btn btn-outline-secondary" type="submit">Enviar</button>
+                    </center>
+                </form>
             </div>
     </div>    
 </body>
