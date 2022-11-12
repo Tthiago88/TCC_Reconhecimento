@@ -21,22 +21,24 @@
     <div class="geral-lista">
         <h1 class="title">Lista chamada</h1>
         <div class="home">
-            <div class="form">
-                <label for="exampleFormControlInput1" class="form-label">Escolha uma data</label>
-                <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/yyy"></inpinput>
-            </div>
-            <div class="form2">
-                <label for="exampleFormControlInput1" class="form-label">Turma</label>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Escolha uma turma</option>
-                    <option value="1">SI8P13</option>
-                    <option value="2">SI7P13</option>
-                    <option value="3">SI6P13</option>
-                </select>
-            </div>
-            <div class="button-enviar">
-                <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
-            </div>
+            <form action="/consultarPresenca" method="post">
+                <div class="form">
+                    <label for="exampleFormControlInput1" class="form-label">Escolha uma data</label>
+                    <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/yyy" name="data"></inpinput>
+                </div>
+                <div class="form2">
+                    <label for="exampleFormControlInput1" class="form-label">Turma</label>
+                    <select class="form-select" aria-label="Default select example" name="turma">
+                        <option selected>Escolha uma turma</option>
+                        <option value="si8p13">SI8P13</option>
+                        <option value="SI7P13">SI7P13</option>
+                        <option value="SI6P13">SI6P13</option>
+                    </select>
+                </div>
+                <div class="button-enviar">
+                    <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
+                </div>
+            </form>    
         </div>
         <div class="table-dados">
             <table class="table table-bordered" >
@@ -48,13 +50,16 @@
                     <th>DATA</th>
                     <th>PRESENÇA</th>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked></td>
+                <tr> 
+                    <% lista.forEach(function(lista){ %>
+                        <% if(lista.data == 1){ $(this).attr("checked", true);} %>  
+                        <td><%= lista.nome %></td>
+                        <td><%= lista.ALUNO_tb_RA %></td>
+                        <td><%= lista.turma %></td>
+                        <td><%= lista.nome_disciplina %></td>
+                        <td><%= lista.data %></td>
+                        <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
+                    <% }); %>     
                 </tr>
             </table>
         </div>

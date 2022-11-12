@@ -96,11 +96,29 @@ app.get('/usuario', function(req, res){
     res.render('usuario');
 });
 
-// app.use((req, res, next) =>{
-//     res.locals.message = req.session.message;
-//     delete req.session.message;
-//     next();
-// })
+//carregar tela lista presenca
+app.get('/presenca', function(req, res){
+    res.render('listaPresenca',{lista:[]});
+})
+
+// Função lista de presença
+app.post('/consultarPresenca', function(req, res){
+    var data = req.body.data;
+    var turma = req.body.turma;
+    console.log(data, turma);
+    var consulta = "SELECT aluno.nome, lista.ALUNO_tb_RA, lista.turma, dis.nome_disciplina, lista.data, lista.presenca FROM lista_chamada AS lista JOIN aluno_tb AS aluno ON lista.ALUNO_tb_RA = aluno.ra JOIN disciplina AS dis ON lista.disciplina_idDisciplina = dis.idDisciplina WHERE lista.turma = '"+turma+"' AND lista.data = '"+data+"';";
+    con.query(consulta, (err, rows) =>{
+        if(!err){
+            console.log(rows);
+            res.render('listaPresenca', {lista:rows});
+        } else{
+            console.log(err);
+        }
+    })
+
+})
+
+
 
 // Select no banco de dados
 app.get('/select' , (req, res) => {
