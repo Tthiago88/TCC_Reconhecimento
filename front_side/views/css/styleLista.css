@@ -1,0 +1,60 @@
+.geral{
+    margin: 0 auto;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    max-width: 60%;
+    border-radius: .5rem;
+    border: 1px solid #aaa;
+}
+.geral-lista{
+    margin: 0 auto;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    max-width: 75%;
+    border-radius: .5rem;
+    border: 1px solid #aaa;
+}
+.navbar{
+    display: flex;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+.nav-aluno{
+    padding-left: 4rem;
+    padding-top: .6rem;
+    font-size: medium;
+}
+.nav-prof{
+    padding-left: .6rem;
+    padding-top: .6rem;
+    font-size: medium;
+}
+.form,.form2{
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    width: 15rem;
+}
+.form2{
+    padding-left: 1rem;
+}
+.home{
+    display: flex;
+}
+.title{
+    text-align: center;
+}
+.button-enviar{
+    padding-left: 4rem;
+    padding-top: 2.9rem;
+}
+.table-dados{
+    max-height: 15rem;
+    overflow-y: auto;
+}
+.table{
+    text-align: center;
+}
+.button-up{
+    display: flex;
+    justify-content: flex-end;
+}
