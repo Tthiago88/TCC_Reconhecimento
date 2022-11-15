@@ -5,7 +5,7 @@
     <meta nome="viewport" content="width=device-width, initial-scale=1,0">
     <title>Lista Presença</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="styleLista.css">
+    <link rel="stylesheet" href="css/styleLista.css">
 </head>
 <body>
     <nav class="navbar bg-light">
@@ -30,9 +30,11 @@
                     <label for="exampleFormControlInput1" class="form-label">Turma</label>
                     <select class="form-select" aria-label="Default select example" name="turma">
                         <option selected>Escolha uma turma</option>
-                        <option value="si8p13">SI8P13</option>
-                        <option value="SI7P13">SI7P13</option>
-                        <option value="SI6P13">SI6P13</option>
+                            <!-- LEMBRAR DO CÓDIGO ABAIXO (PORQUE FUNCIONA)
+                            <option value="<%# r.turma %> ">SI8P13</option>-->
+                            <option value="si8p13">SI8P13</option>
+                            <option value="SI7P13">SI7P13</option>
+                            <option value="SI6P13">SI6P13</option>
                     </select>
                 </div>
                 <div class="button-enviar">
@@ -50,17 +52,26 @@
                     <th>DATA</th>
                     <th>PRESENÇA</th>
                 </tr>
-                <tr> 
-                    <% lista.forEach(function(lista){ %>
-                        <% if(lista.data == 1){ $(this).attr("checked", true);} %>  
+                <% lista.forEach(function(lista){ %>
+                    <tr>   
                         <td><%= lista.nome %></td>
-                        <td><%= lista.ALUNO_tb_RA %></td>
-                        <td><%= lista.turma %></td>
-                        <td><%= lista.nome_disciplina %></td>
-                        <td><%= lista.data %></td>
-                        <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                    <% }); %>     
-                </tr>
+                        <td><%= lista.RA %></td>
+                        <td><%= lista.turma_aluno %></td>
+                        <% if(lista.nome_disciplina != null){%> 
+                            <td><%= lista.nome_disciplina %></td>
+                            <% }else{ %>
+                                <td>Vazio</td>
+                            <% } %>
+                        <% if(lista.data != null){%>
+                            <td><%= lista.data %></td>
+                            <% }else{ %> <td>Vazio</td> <% } %>
+                        <% if(lista.presenca ==1){ %> 
+                        <td><input class="form-check-input" type="checkbox" id="presenca" checked="<% lista.presenca %>"></td> 
+                        <% }else{%>
+                            <td><input class="form-check-input" type="checkbox" id="presenca"></td>
+                            <% }; %>     
+                    </tr>
+                <% }); %>    
             </table>
         </div>
         <div class="button-up">

@@ -44,7 +44,8 @@ app.post("/", function(req, res){
                 res.render('cadastroAluno');
                 res.end();
                 req.session.login = login;
-            } else{
+            } else{ 
+                res.render('/',{message:'erro'})
             }
         })
         con.query(statement2, function(err, data){
@@ -98,16 +99,24 @@ app.get('/usuario', function(req, res){
 
 //carregar tela lista presenca
 app.get('/presenca', function(req, res){
-    res.render('listaPresenca',{lista:[]});
-})
+    con.query("select turma_aluno FROM aluno_tb", (err, rows)=>{
+        res.render('listaPresenca',{lista:[]});
+    })
+});
+
+// carregar consulta aluno (EJS NÃO FINALIZADO)
+app.get('/consultaAluno', function(req, res){
+    res.render('consultaAluno.ejs');
+});
 
 // Função lista de presença
 app.post('/consultarPresenca', function(req, res){
     var data = req.body.data;
     var turma = req.body.turma;
     console.log(data, turma);
-    var consulta = "SELECT aluno.nome, lista.ALUNO_tb_RA, lista.turma, dis.nome_disciplina, lista.data, lista.presenca FROM lista_chamada AS lista JOIN aluno_tb AS aluno ON lista.ALUNO_tb_RA = aluno.ra JOIN disciplina AS dis ON lista.disciplina_idDisciplina = dis.idDisciplina WHERE lista.turma = '"+turma+"' AND lista.data = '"+data+"';";
-    con.query(consulta, (err, rows) =>{
+    var sql = "select a.nome,a.RA,a.turma_aluno,l.data,l.presenca,d.nome_disciplina from aluno_tb as a left join lista_chamada as l ON Aluno_tb_RA=RA left join disciplina as d ON l.disciplina_idDisciplina=d.idDisciplina Where a.turma_aluno='"+turma+"' order by l.presenca;"
+    //var sql = "SELECT aluno.nome, lista.ALUNO_tb_RA, lista.turma, dis.nome_disciplina, lista.data, lista.presenca FROM lista_chamada AS lista JOIN aluno_tb AS aluno ON lista.ALUNO_tb_RA = aluno.ra JOIN disciplina AS dis ON lista.disciplina_idDisciplina = dis.idDisciplina WHERE lista.turma = '"+turma+"' AND lista.data = '"+data+"';";
+    con.query(sql, (err, rows) =>{
         if(!err){
             console.log(rows);
             res.render('listaPresenca', {lista:rows});
@@ -118,6 +127,7 @@ app.post('/consultarPresenca', function(req, res){
 
 })
 
+//DEPOIS PESQUISAR BIBLIOTECA MULTER
 
 
 // Select no banco de dados
@@ -130,31 +140,14 @@ app.get('/select' , (req, res) => {
     })
 } );
 
-// teste de SELECT
-app.get('/n', (req, res) => {
-    con.query("SELECT turma, data FROM Lista_chamada", (err, rows) =>{
-        if(!err){
-            res.render('tela buscar', {lista: rows});
-            console.log(rows);
-        }
-    })
-    // con.query("SELECT data FROM Lista_chamada", (err, rows) =>{
-    //     if(!err){
-    //         res.render('tela buscar', {lista_data: rows});
-    //         console.log(rows);
-    //     }
-    // })
-})
 
 // Inserir na tabela ALUNO -- FUNCIONA
 app.post('/insert', (req, res) => {
-    // let data = {nome: req.body.nome, cpf: req.body.cpf, responsavel: req.body.respon};
     var ra = req.body.ra;
     var nome = req.body.nome;
     var senha = req.body.senha;
     var turma_aluno = req.body.turma;
     var image = req.body.img;
-    // var prof = req.body.ra_prof;
     var colaborador = 1;
     let stat = "INSERT INTO Aluno_tb(RA, nome, senha, turma_aluno, image_aluno, Colaborador_tb_idColaborador) VALUES (?, ?, ?, ?, ?, ?)";
     con.query(stat, [ra, nome, senha, turma_aluno, image, colaborador], (err, result) =>{
