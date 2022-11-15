@@ -37,7 +37,7 @@ app.post("/", function(req, res){
     let = statement = "SELECT RA, nome, senha FROM Aluno_tb WHERE RA = '"+login+"' AND senha = '"+senha+"'";
     let = statement2 = "SELECT RA, senha FROM Professores WHERE RA = '"+login+"' AND senha = '"+senha+"'";
     let = statement3 = "SELECT nome, senha FROM Colaborador_tb WHERE nome = '"+login+"' AND senha = '"+senha+"'";
-    if(login && senha){
+    if(typeof login && senha){
         con.query(statement, function(err, data){
             if(data.length > 0){
                 console.log("usuario "+login+" logado");
@@ -45,7 +45,7 @@ app.post("/", function(req, res){
                 res.end();
                 req.session.login = login;
             } else{ 
-                res.render('/',{message:'erro'})
+                res.render('login',{message:'erro'});
             }
         })
         con.query(statement2, function(err, data){
@@ -66,6 +66,8 @@ app.post("/", function(req, res){
             } else{
             }
         })
+    } else{
+        res.render('login',{message:'preencha os campos'});
     }
 });
 

@@ -19,6 +19,12 @@
         <div class="geral">
             <h1 class="titulo">LOGIN</h1>
             <form action="/" method="post">
+                <!-- MENSAGEM DE ERRO -->
+                <% if (typeof message !== 'undefined') { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= message %> 
+                    </div>
+                <% } %>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Seu RA (Número da Matrícula)</label>
                     <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite seu RA" name="ra">
@@ -28,7 +34,7 @@
                     <input type="password" class="form-control" id="inputPassword" placeholder="Digite sua Senha" name="senha">
                 </div>
                 <div class="button">
-                    <button href="cadastroAluno.html" class="form-control btn btn-outline-secondary" type="submit">ENTRAR</button>
+                    <button href="cadastroAluno.html" class="form-control btn btn-outline-secondary" type="submit">ENTRAR</button> 
                 </div>
             </form>    
         </div>
