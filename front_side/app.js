@@ -31,44 +31,51 @@ app.use(session({
 );
 
 // Método de login (FUNCIONA +OU-, MAS FUNCIONA) 
-app.post("/", function(req, res){
-    var login = req.body.ra;
-    var senha = req.body.senha;
-    let = statement = "SELECT RA, nome, senha FROM Aluno_tb WHERE RA = '"+login+"' AND senha = '"+senha+"'";
-    let = statement2 = "SELECT RA, senha FROM Professores WHERE RA = '"+login+"' AND senha = '"+senha+"'";
-    let = statement3 = "SELECT nome, senha FROM Colaborador_tb WHERE nome = '"+login+"' AND senha = '"+senha+"'";
-    if(typeof login && senha){
-        con.query(statement, function(err, data){
-            if(data.length > 0){
-                console.log("usuario "+login+" logado");
-                res.render('cadastroAluno');
-                res.end();
-                req.session.login = login;
-            } else{ 
-                res.render('login',{message:'erro'});
-            }
-        })
-        con.query(statement2, function(err, data){
-            if(data.length > 0){
-                console.log("usuario"+login+"logado");
-                res.render('cadastroProfessor');
-                req.session.login = login;
-                res.end();
-            } else{
-            }
-        })
-        con.query(statement3, function(err, data){
-            if(data.length > 0){
-                console.log('usuario logado');
-                res.render('usuario');
-                req.session.login = login;
-                res.end();
-            } else{
-            }
-        })
-    } else{
-        res.render('login',{message:'preencha os campos'});
+app.post("/", async function (req, res) {
+    try {
+        const { ra: login, senha } = req.body
+
+        if (!login || !senha) throw new Error("Preencha todos os campos!")
+
+        let statement = "SELECT RA, nome, senha FROM Aluno_tb WHERE RA = '" + login + "' AND senha = '" + senha + "'";
+        let statement2 = "SELECT RA, senha FROM Professores WHERE RA = '" + login + "' AND senha = '" + senha + "'";
+        let statement3 = "SELECT nome, senha FROM Colaborador_tb WHERE nome = '" + login + "' AND senha = '" + senha + "'";
+
+        let aluno, professor, usuario
+
+        const promise1 = await con.promise().query(statement)
+        if (promise1[0].length > 0) {
+            console.log("usuario " + login + " logado");
+            req.session.login = login;
+            res.render('cadastroAluno');
+            res.end();
+            aluno = promise1[0]
+        } else aluno = false
+
+        const promise2 = await con.promise().query(statement2)
+        if (promise2[0].length > 0) {
+            console.log("usuario" + login + "logado");
+            res.render('listaPresenca',{lista:[]});
+            req.session.login = login;
+            res.end();
+            professor = promise2[0]
+        } else professor = false
+
+        const promise3 = await con.promise().query(statement3)
+        if (promise3[0].length > 0) {
+            console.log('usuario logado');
+            res.render('usuario');
+            req.session.login = login;
+            res.end();
+            usuario = promise3[0]
+        } else usuario = false
+
+        if (!aluno && !professor && !usuario) throw new Error("Usuário não encontrado!")
+
+    } catch (error) {
+        res.render('login', { message: error.message });
     }
+
 });
 
 //Página inicial - Mudado para a página de login
@@ -100,11 +107,33 @@ app.get('/usuario', function(req, res){
 });
 
 //carregar tela lista presenca
-app.get('/presenca', function(req, res){
-    con.query("select turma_aluno FROM aluno_tb", (err, rows)=>{
-        res.render('listaPresenca',{lista:[]});
+app.get('/presenca',async function(req, res){
+    const viewra="create or replace view ra as select distinct a.nome,a.RA,a.turma_aluno from aluno_tb as a;"
+    const viewdata="create or replace view data as select distinct l.data from lista_chamada as l;"
+    const viewunico="create or replace view unico as select d.data,a.RA,l.presenca,dis.nome_disciplina from ra as a join data as d ON d.data left join lista_chamada as l ON a.RA=l.Aluno_tb_RA left join disciplina as dis ON l.disciplina_idDisciplina=dis.idDisciplina where d.data=l.data;"
+    const addRa =await con.promise().query(viewra)
+    const adddata =await con.promise().query(viewdata)
+    const addunico =await con.promise().query(viewunico)
+    const sql="select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from data as d join ra as a ON a.RA left join unico as u ON u.RA union select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from ra as a join data as d ON d.data left join unico as u ON u.RA=a.RA order by presenca desc,turma_aluno;"
+        
+    con.query(sql, (err, rows) => {
+    res.render('listaPresenca',{lista: rows });
     })
 });
+app.post('/voltar', async (req, res) => {
+    const viewra="create or replace view ra as select distinct a.nome,a.RA,a.turma_aluno from aluno_tb as a;"
+    const viewdata="create or replace view data as select distinct l.data from lista_chamada as l;"
+    const viewunico="create or replace view unico as select d.data,a.RA,l.presenca,dis.nome_disciplina from ra as a join data as d ON d.data left join lista_chamada as l ON a.RA=l.Aluno_tb_RA left join disciplina as dis ON l.disciplina_idDisciplina=dis.idDisciplina where d.data=l.data;"
+    const addRa =await con.promise().query(viewra)
+    const adddata =await con.promise().query(viewdata)
+    const addunico =await con.promise().query(viewunico)
+    const sql="select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from data as d join ra as a ON a.RA left join unico as u ON u.RA union select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from ra as a join data as d ON d.data left join unico as u ON u.RA=a.RA order by presenca desc,turma_aluno;"
+        
+    con.query(sql, (err, rows) => {
+    res.render('listaPresenca',{lista: rows });
+    })
+});
+
 
 // carregar consulta aluno (EJS NÃO FINALIZADO)
 app.get('/consultaAluno', function(req, res){
@@ -112,21 +141,29 @@ app.get('/consultaAluno', function(req, res){
 });
 
 // Função lista de presença
-app.post('/consultarPresenca', function(req, res){
-    var data = req.body.data;
-    var turma = req.body.turma;
-    console.log(data, turma);
-    var sql = "select a.nome,a.RA,a.turma_aluno,l.data,l.presenca,d.nome_disciplina from aluno_tb as a left join lista_chamada as l ON Aluno_tb_RA=RA left join disciplina as d ON l.disciplina_idDisciplina=d.idDisciplina Where a.turma_aluno='"+turma+"' order by l.presenca;"
-    //var sql = "SELECT aluno.nome, lista.ALUNO_tb_RA, lista.turma, dis.nome_disciplina, lista.data, lista.presenca FROM lista_chamada AS lista JOIN aluno_tb AS aluno ON lista.ALUNO_tb_RA = aluno.ra JOIN disciplina AS dis ON lista.disciplina_idDisciplina = dis.idDisciplina WHERE lista.turma = '"+turma+"' AND lista.data = '"+data+"';";
+app.post('/consultarPresenca',async function(req, res){
+    const{data,turma}=req.body
+    const sql = "select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from data as d join ra as a ON a.RA left join unico as u ON u.RA union select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from ra as a join data as d ON d.data left join unico as u ON u.RA=a.RA order by presenca desc;"
+    const dropdata = "drop view IF EXISTS data;"
+    const deleteRa = "drop view IF EXISTS ra;"
+    const deleteUnico = "drop view IF EXISTS unico;"
+    const function1 =await con.promise().query(deleteRa)
+    const function2 =await con.promise().query(dropdata)
+    const function3 =await con.promise().query(deleteUnico)
+    const viewdata="create or replace view data as select distinct l.data from lista_chamada as l where l.data='"+data+"';"
+    const viewra="create or replace view ra as select distinct a.nome,a.RA,a.turma_aluno from aluno_tb as a where a.turma_aluno='"+turma+"';"
+    const viewunico="create or replace view unico as select d.data,a.RA,l.presenca,dis.nome_disciplina from ra as a join data as d ON d.data left join lista_chamada as l ON a.RA=l.Aluno_tb_RA left join disciplina as dis ON l.disciplina_idDisciplina=dis.idDisciplina where d.data=l.data;"
+    const addRa =await con.promise().query(viewra)
+    const adddata =await con.promise().query(viewdata)
+    const addunico =await con.promise().query(viewunico)
     con.query(sql, (err, rows) =>{
-        if(!err){
-            console.log(rows);
-            res.render('listaPresenca', {lista:rows});
+      if(!err){
+        console.log(rows);
+        res.render('listaPresenca', {lista:rows});
         } else{
-            console.log(err);
+        console.log(err);
         }
     })
-
 })
 
 //DEPOIS PESQUISAR BIBLIOTECA MULTER

@@ -20,8 +20,8 @@
     </nav>
     <div class="geral-lista">
         <h1 class="title">Lista chamada</h1>
+        <form action="/consultarPresenca" method="post">
         <div class="home">
-            <form action="/consultarPresenca" method="post">
                 <div class="form">
                     <label for="exampleFormControlInput1" class="form-label">Escolha uma data</label>
                     <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/yyy" name="data"></inpinput>
@@ -40,6 +40,11 @@
                 <div class="button-enviar">
                     <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
                 </div>
+            </form>
+            <form action="/voltar" method="post">
+                <div class="button-enviar">
+                    <button class="btn-voltar btn btn-outline-secondary" type="submit">Voltar</button>
+                </div>    
             </form>    
         </div>
         <div class="table-dados">
