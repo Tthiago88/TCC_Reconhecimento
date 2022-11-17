@@ -55,7 +55,7 @@ app.post("/", async function (req, res) {
         const promise2 = await con.promise().query(statement2)
         if (promise2[0].length > 0) {
             console.log("usuario" + login + "logado");
-            res.render('listaPresenca',{lista:[]});
+            res.redirect('/presenca')
             req.session.login = login;
             res.end();
             professor = promise2[0]
@@ -117,21 +117,14 @@ app.get('/presenca',async function(req, res){
     const sql="select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from data as d join ra as a ON a.RA left join unico as u ON u.RA union select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from ra as a join data as d ON d.data left join unico as u ON u.RA=a.RA order by presenca desc,turma_aluno;"
         
     con.query(sql, (err, rows) => {
-    res.render('listaPresenca',{lista: rows });
+        const allRows = rows.map(row => {
+            return {...row, data: new Date(row.data).toLocaleString("pt-br").slice(0, 10)}
+          })
+        res.render('listaPresenca', { lista: allRows });
     })
 });
 app.post('/voltar', async (req, res) => {
-    const viewra="create or replace view ra as select distinct a.nome,a.RA,a.turma_aluno from aluno_tb as a;"
-    const viewdata="create or replace view data as select distinct l.data from lista_chamada as l;"
-    const viewunico="create or replace view unico as select d.data,a.RA,l.presenca,dis.nome_disciplina from ra as a join data as d ON d.data left join lista_chamada as l ON a.RA=l.Aluno_tb_RA left join disciplina as dis ON l.disciplina_idDisciplina=dis.idDisciplina where d.data=l.data;"
-    const addRa =await con.promise().query(viewra)
-    const adddata =await con.promise().query(viewdata)
-    const addunico =await con.promise().query(viewunico)
-    const sql="select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from data as d join ra as a ON a.RA left join unico as u ON u.RA union select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from ra as a join data as d ON d.data left join unico as u ON u.RA=a.RA order by presenca desc,turma_aluno;"
-        
-    con.query(sql, (err, rows) => {
-    res.render('listaPresenca',{lista: rows });
-    })
+    res.redirect('/presenca')
 });
 
 
@@ -158,8 +151,12 @@ app.post('/consultarPresenca',async function(req, res){
     const addunico =await con.promise().query(viewunico)
     con.query(sql, (err, rows) =>{
       if(!err){
-        console.log(rows);
-        res.render('listaPresenca', {lista:rows});
+        con.query(sql, (err, rows) => {
+            const allRows = rows.map(row => {
+                return {...row, data: new Date(row.data).toLocaleString("pt-br").slice(0, 10)}
+              })
+            res.render('listaPresenca', { lista: allRows });
+        })
         } else{
         console.log(err);
         }
