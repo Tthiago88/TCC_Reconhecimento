@@ -145,15 +145,20 @@ app.get('/consultaAluno', function(req, res){
 // MÉTODO DE PESQUISAR FREQUENCIA ALUNO
 app.post('/consultaA', function(req, res){
     const disciplina = req.body.disciplina;
+    console.log(req.sessionID);
     let ra = 'n333001';
     const a = "select nome_disciplina from disciplina;"
     const queryAluno = "select a.nome, a.RA, l.turma, l.presenca, d.nome_disciplina, l.data from aluno_tb as a left join lista_chamada as l on a.RA = l.Aluno_tb_RA join disciplina as d on l.disciplina_idDisciplina = d.idDisciplina where a.RA='"+ra+"' and d.nome_disciplina = '"+disciplina+"';"
-        con.query(queryAluno, (err, rows) =>{
-            if(!err){
-                //console.log(rows.data.toLocaleDateString("pt-BR"));
-                res.render('consultaAluno', {resultado:rows,});
-            }
-        })  
+    con.query(queryAluno, (err, rows) =>{
+        if(!err){
+            con.query(a, (err, result) =>{
+                if(!err){
+                    console.log(result);
+                    res.render('consultaAluno', {resultado:rows, varDisciplina:result});
+                }
+            })
+        }
+    })  
 });
 
 // Função lista de presença
