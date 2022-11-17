@@ -20,25 +20,29 @@
         </div>
     </nav>
     <div class="geral-lista">
-        <h1 class="title">Consulta de Frequência</h1>
-        <div class="home">
-            <div class="form">
-                <label for="exampleFormControlInput1" class="form-label">Escolha uma data</label>
-                <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/yyy"></inpinput>
+        <h1 class="title">Consulta de Frequência Aluno</h1>
+        <form action="/consultaA" method="post">
+            <div class="home">
+                <div class="form">
+                    <label for="exampleFormControlInput1" class="form-label">Escolha uma data</label>
+                    <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/yyy"></input>
+                </div>
+                <div class="form2">
+                    <label for="exampleFormControlInput1" class="form-label">Discipina</label>
+                    <select class="form-select" aria-label="Default select example" name="disciplina">
+                        <option selected disabled>Escolha uma Discipina</option>
+                        <% if(typeof varDisciplina !=='undefined'){ %>
+                            <% varDisciplina.forEach(function(varDisciplina){ %>  
+                            <option value="<%= varDisciplina.nome_disciplina %>"><%= varDisciplina.nome_disciplina %></option>
+                            <% }); %>
+                        <% }; %>      
+                    </select>
+                </div>
+                <div class="button-enviar">
+                    <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
+                </div>
             </div>
-            <div class="form2">
-                <label for="exampleFormControlInput1" class="form-label">Discipina</label>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Escolha uma Discipina</option>
-                    <option value="1">SI8P13</option>
-                    <option value="2">SI7P13</option>
-                    <option value="3">SI6P13</option>
-                </select>
-            </div>
-            <div class="button-enviar">
-                <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
-            </div>
-        </div>
+        </form>
         <div class="table-dados">
             <table class="table table-bordered" >
                 <tr>
@@ -46,7 +50,19 @@
                     <th>RA</th>
                     <th>TURMA</th>
                     <th>DISCIPLINA</th>
+                    <th>PRESENÇA</th>
                 </tr>
+                <tr>
+                    <% if(typeof resultado !== 'undefined'){ %> 
+                    <% resultado.forEach(function(resultado){ %> 
+                        <td><%= resultado.data.toLocaleDateString("pt-BR") %> </td>
+                        <td><%= resultado.RA %> </td>
+                        <td><%= resultado.turma %> </td>
+                        <td><%= resultado.nome_disciplina %> </td>
+                        <td><%= resultado.presenca %> </td>  
+                </tr>
+                <% }); %>
+                <% }; %>
             </table>
         </div>
     </div>

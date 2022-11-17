@@ -30,6 +30,13 @@ app.use(session({
     })
 );
 
+// function f(){
+//     const a = "select nome_disciplina from disciplina;"
+//     con.query(a, (err, rows) =>{
+//         return resultado = rows;
+//     }
+// )};
+
 // Método de login (FUNCIONA +OU-, MAS FUNCIONA) 
 app.post("/", async function (req, res) {
     try {
@@ -47,7 +54,7 @@ app.post("/", async function (req, res) {
         if (promise1[0].length > 0) {
             console.log("usuario " + login + " logado");
             req.session.login = login;
-            res.render('cadastroAluno');
+            res.redirect('/consultaAluno');
             res.end();
             aluno = promise1[0]
         } else aluno = false
@@ -127,10 +134,26 @@ app.post('/voltar', async (req, res) => {
     res.redirect('/presenca')
 });
 
-
 // carregar consulta aluno (EJS NÃO FINALIZADO)
 app.get('/consultaAluno', function(req, res){
-    res.render('consultaAluno.ejs');
+    const a = "select nome_disciplina from disciplina;"
+    con.query(a, (err, rows) =>{
+        res.render('consultaAluno.ejs',{varDisciplina:rows});
+    })
+});
+
+// MÉTODO DE PESQUISAR FREQUENCIA ALUNO
+app.post('/consultaA', function(req, res){
+    const disciplina = req.body.disciplina;
+    let ra = 'n333001';
+    const a = "select nome_disciplina from disciplina;"
+    const queryAluno = "select a.nome, a.RA, l.turma, l.presenca, d.nome_disciplina, l.data from aluno_tb as a left join lista_chamada as l on a.RA = l.Aluno_tb_RA join disciplina as d on l.disciplina_idDisciplina = d.idDisciplina where a.RA='"+ra+"' and d.nome_disciplina = '"+disciplina+"';"
+        con.query(queryAluno, (err, rows) =>{
+            if(!err){
+                //console.log(rows.data.toLocaleDateString("pt-BR"));
+                res.render('consultaAluno', {resultado:rows,});
+            }
+        })  
 });
 
 // Função lista de presença
