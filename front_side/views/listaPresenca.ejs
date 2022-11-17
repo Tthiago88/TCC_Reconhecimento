@@ -21,6 +21,12 @@
     <div class="geral-lista">
         <h1 class="title">Lista chamada</h1>
         <form action="/consultarPresenca" method="post">
+            <!-- MENSAGEM DE ERRO -->
+                <% if (typeof message !== 'undefined') { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= message %> 
+                    </div>
+                <% } %>
         <div class="home">
                 <div class="form">
                     <label for="exampleFormControlInput1" class="form-label">Escolha uma data</label>

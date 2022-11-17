@@ -62,8 +62,8 @@ app.post("/", async function (req, res) {
         const promise2 = await con.promise().query(statement2)
         if (promise2[0].length > 0) {
             console.log("usuario" + login + "logado");
-            res.redirect('/presenca')
             req.session.login = login;
+            res.redirect('/presenca')
             res.end();
             professor = promise2[0]
         } else professor = false
@@ -71,8 +71,8 @@ app.post("/", async function (req, res) {
         const promise3 = await con.promise().query(statement3)
         if (promise3[0].length > 0) {
             console.log('usuario logado');
-            res.render('usuario');
             req.session.login = login;
+            res.render('usuario');
             res.end();
             usuario = promise3[0]
         } else usuario = false
@@ -143,10 +143,10 @@ app.get('/consultaAluno', function(req, res){
 });
 
 // MÉTODO DE PESQUISAR FREQUENCIA ALUNO
-app.post('/consultaA', function(req, res){
+app.post('/consultaA',async function(req, res){
+    const ra= await req.session.login
     const disciplina = req.body.disciplina;
-    console.log(req.sessionID);
-    let ra = 'n333001';
+    // let ra = 'n333001';
     const a = "select nome_disciplina from disciplina;"
     const queryAluno = "select a.nome, a.RA, l.turma, l.presenca, d.nome_disciplina, l.data from aluno_tb as a left join lista_chamada as l on a.RA = l.Aluno_tb_RA join disciplina as d on l.disciplina_idDisciplina = d.idDisciplina where a.RA='"+ra+"' and d.nome_disciplina = '"+disciplina+"';"
     con.query(queryAluno, (err, rows) =>{
@@ -163,8 +163,10 @@ app.post('/consultaA', function(req, res){
 
 // Função lista de presença
 app.post('/consultarPresenca',async function(req, res){
-    const{data,turma}=req.body
     const sql = "select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from data as d join ra as a ON a.RA left join unico as u ON u.RA union select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from ra as a join data as d ON d.data left join unico as u ON u.RA=a.RA order by presenca desc;"
+    try {
+    const{data,turma}=req.body
+    if(!data||turma=="Escolha uma turma") throw new Error("Preencha todos os campos!")
     const dropdata = "drop view IF EXISTS data;"
     const deleteRa = "drop view IF EXISTS ra;"
     const deleteUnico = "drop view IF EXISTS unico;"
@@ -189,10 +191,18 @@ app.post('/consultarPresenca',async function(req, res){
         console.log(err);
         }
     })
+    } catch (error) {
+        con.query(sql, (err, rows) => {
+        const allRows = rows.map(row => {
+            return {...row, data: new Date(row.data).toLocaleString("pt-br").slice(0, 10)}
+            })
+        res.render('listaPresenca', { lista: allRows,message: error.message });
+        })
+    }
 })
 
-//DEPOIS PESQUISAR BIBLIOTECA MULTER
 
+//DEPOIS PESQUISAR BIBLIOTECA MULTER
 
 // Select no banco de dados
 app.get('/select' , (req, res) => {
