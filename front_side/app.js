@@ -37,7 +37,7 @@ app.use(session({
 //     }
 // )};
 
-// Método de login (FUNCIONA +OU-, MAS FUNCIONA) 
+// Método de login 
 app.post("/", async function (req, res) {
     try {
         const { ra: login, senha } = req.body
@@ -52,7 +52,7 @@ app.post("/", async function (req, res) {
 
         const promise1 = await con.promise().query(statement)
         if (promise1[0].length > 0) {
-            console.log("usuario " + login + " logado");
+            // console.log("usuario " + login + " logado");
             req.session.login = login;
             res.redirect('/consultaAluno');
             res.end();
@@ -61,7 +61,7 @@ app.post("/", async function (req, res) {
 
         const promise2 = await con.promise().query(statement2)
         if (promise2[0].length > 0) {
-            console.log("usuario" + login + "logado");
+            // console.log("usuario" + login + "logado");
             req.session.login = login;
             res.redirect('/presenca')
             res.end();
@@ -70,7 +70,7 @@ app.post("/", async function (req, res) {
 
         const promise3 = await con.promise().query(statement3)
         if (promise3[0].length > 0) {
-            console.log('usuario logado');
+            // console.log('usuario logado');
             req.session.login = login;
             res.render('usuario');
             res.end();
@@ -104,14 +104,14 @@ app.get("/cadastroAluno", (req, res) =>{
     })
 });
 
-// Carregar o arquivo EJS
-app.get('/index', function(req, res){  
-    res.render('index.ejs', {title: "Index"});
-});
+// // Carregar o arquivo EJS
+// app.get('/index', function(req, res){  
+//     res.render('index.ejs', {title: "Index"});
+// });
 
-app.get('/usuario', function(req, res){  
-    res.render('usuario');
-});
+// app.get('/usuario', function(req, res){  
+//     res.render('usuario');
+// });
 
 //carregar tela lista presenca
 app.get('/presenca',async function(req, res){
@@ -132,6 +132,10 @@ app.get('/presenca',async function(req, res){
 });
 app.post('/voltar', async (req, res) => {
     res.redirect('/presenca')
+});
+app.post('/sair', async (req, res) => {
+    console.log("Usuário deslogou")
+    res.redirect('/')
 });
 
 // carregar consulta aluno (EJS NÃO FINALIZADO)

@@ -13,8 +13,8 @@
             <div>            
                 <a href="#" class="navbar-brand">Classroom</a>
             </div>
-            <form class="d-flex" role="search">
-                <button type="button" class="btn btn-outline-danger">Sair</button>
+            <form action="/sair" method="post" class="d-flex" role="search">
+                <button type="submit" class="btn btn-outline-danger">Sair</button>
             </form>
         </div>
     </nav>
@@ -22,15 +22,15 @@
         <h1 class="title">Lista chamada</h1>
         <form action="/consultarPresenca" method="post">
             <!-- MENSAGEM DE ERRO -->
-                <% if (typeof message !== 'undefined') { %>
-                    <div class="alert alert-danger" role="alert">
-                        <%= message %> 
-                    </div>
-                <% } %>
+            <% if (typeof message !== 'undefined') { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= message %> 
+                </div>
+            <% } %>
         <div class="home">
                 <div class="form">
                     <label for="exampleFormControlInput1" class="form-label">Escolha uma data</label>
-                    <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/yyy" name="data"></inpinput>
+                    <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/yyyy" name="data"></inpinput>
                 </div>
                 <div class="form2">
                     <label for="exampleFormControlInput1" class="form-label">Turma</label>
