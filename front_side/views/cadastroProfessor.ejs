@@ -11,11 +11,11 @@
         <nav class="navbar bg-light">
             <div class="container-fluid">
                 <div>
-                    <a class="navbar-brand">Classroom</a>
-                    <a href="cadastroAluno.html" class="nav-prof navbar-brand">Cadastro Aluno</a>
+                    <a href="/listarHome" class="navbar-brand">Classroom</a>
+                    <a href="/cadastroAluno" class="nav-prof navbar-brand">Cadastro Aluno</a>
                 </div>
-                <form class="d-flex" role="search">
-                    <button type="button" class="btn btn-outline-danger">Sair</button>
+                <form action="/sair" method="post" class="d-flex" role="search">
+                    <button type="submit" class="btn btn-outline-danger">Sair</button>
                 </form>
             </div>
         </nav>
@@ -23,32 +23,39 @@
             <h1 class="titulo">Cadastro de Professores</h1>
             <form action="/insertProf" method="post">
                 <div class="geral">
+                    <!-- MENSAGEM DE CADASTRADO -->
+                    <% if (typeof messageProf !== 'undefined') { %>
+                        <div class="alert alert-success" role="alert">
+                            <%= messageProf %> 
+                        </div>
+                    <% } %>
+                    <!-- MENSAGEM DE ERRO -->
+                <% if (typeof messageErro !== 'undefined') { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= messageErro %> 
+                    </div>
+                <% } %>
                     <div class="home">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Nome</label>
-                            <input type="nome" class="form-control" id="exampleFormControlInput1" placeholder="Digite o nome" name="nome">
+                            <input type="nome" class="form-control" id="exampleFormControlInput1" placeholder="Digite o nome" name="nome" required>
                         </div>
                         <div class="form">
                                 <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
-                                <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="raProf">
+                                <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="raProf" required>
                         </div>
                     </div>
                     <div class="home1">
                         <div class="form">
                             <label for="inputPassword" class="form-label">Senha</label>
                         <div>
-                            <input type="password" class="form-control" id="inputPassword" placeholder="Digite a senha" name="senha">
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Digite a senha" name="senha" required>
                             </div>
                         </div>
                     </div>
                     <center>
                         <button class="btn-enviar btn btn-outline-secondary" type="submit">Enviar</button>
                     </center>
-                    <% if(mensagem == true){ %>
-                        <script>
-                            window.alert('deu certo?');
-                        </script>
-                    <% };  %>  
                 </div>
             </form>    
         </div>    

@@ -12,7 +12,7 @@
     <nav class="navbar bg-light">
         <div class="container-fluid">
             <div>            
-                <a href="homeColaborador.html" class="navbar-brand">Classroom</a>
+                <a href="" class="navbar-brand">Classroom</a>
             </div>
             <form action="/sair" method="post" class="d-flex" role="search">
                 <button type="submit" class="btn btn-outline-danger">Sair</button>
@@ -30,7 +30,7 @@
                 <div class="form2">
                     <label for="exampleFormControlInput1" class="form-label">Discipina</label>
                     <select class="form-select" aria-label="Default select example" name="disciplina">
-                        <option selected disabled>Escolha uma Discipina</option>
+                        <option value="" selected disabled>Escolha uma Discipina</option>
                         <% if(typeof varDisciplina !=='undefined'){ %>
                             <% varDisciplina.forEach(function(varDisciplina){ %>  
                             <option value="<%= varDisciplina.nome_disciplina %>"><%= varDisciplina.nome_disciplina %></option>

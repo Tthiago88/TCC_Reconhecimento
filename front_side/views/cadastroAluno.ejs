@@ -13,26 +13,38 @@
         <nav class="navbar bg-light">
             <div class="container-fluid">
                 <div>            
-                    <a class="navbar-brand">Classroom</a>
-                    <a href="cadastroProfessor.html" class="nav-prof navbar-brand">Cadastro Professor</a>
+                    <a href="/listarHome" class="navbar-brand">Classroom</a>
+                    <a href="/cadastroProfessor" class="nav-prof navbar-brand">Cadastro Professor</a>
                 </div>
-                <form class="d-flex" role="search">
-                    <button type="button" class="btn btn-outline-danger">Sair</button>
+                <form action="/sair" method="post" class="d-flex" role="search">
+                    <button type="submit" class="btn btn-outline-danger">Sair</button>
                 </form>
             </div>
         </nav>
         <div class="body">
             <h1 class="titulo">Cadastro de Alunos</h1>
+            <form action="/insert" method="post" enctype="multipart/form-data">
             <div class="geral">
-                <form action="/insert" method="post">
+                <!-- MENSAGEM DE CADASTRADO -->
+                <% if (typeof messageAluno !== 'undefined') { %>
+                    <div class="alert alert-success" role="alert">
+                        <%= messageAluno %> 
+                    </div>
+                <% } %>
+                <!-- MENSAGEM DE ERRO -->
+                <% if (typeof messageErro !== 'undefined') { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= messageErro %> 
+                    </div>
+                <% } %>
                     <div class="home">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Nome</label>
-                            <input type="nome" class="form-control" id="exampleFormControlInput1" placeholder="Digite o nome" name="nome">
+                            <input type="nome" class="form-control" id="exampleFormControlInput1" placeholder="Digite o nome" name="nome" required>
                         </div>
                         <div class="form">
                             <label for="exampleFormControlInput1" class="form-label">Turma</label>
-                            <input type="text" class="form-control" list="turma" name="turma">
+                            <input type="text" class="form-control" list="turma" name="turma" required>
                             <!-- ISSO PARACE UMA BOA OPÇÃO -->
                             <datalist id="turma">
                                 <option selected disabled>Escolha uma turma</option>
@@ -51,18 +63,18 @@
                     <div class="home1">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
-                            <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="ra">
+                            <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="ra" required>
                         </div>
                         <div class="form">
                             <label for="inputPassword" class="form-label">Senha</label>
                         <div>
-                            <input type="password" class="form-control" id="inputPassword" placeholder="Digite a senha" name="senha">
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Digite a senha" name="senha" required>
                             </div>
                         </div>
                     </div>
                     <div class="input">
                         <div class="input-group">
-                            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="img">
+                            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="img" required>
                         </div>
                     </div>
                     <center>

@@ -30,15 +30,15 @@
         <div class="home">
                 <div class="form">
                     <label for="exampleFormControlInput1" class="form-label">Escolha uma data</label>
-                    <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/yyyy" name="data"></inpinput>
+                    <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/yyyy" name="data" required></input>
                 </div>
                 <div class="form2">
                     <label for="exampleFormControlInput1" class="form-label">Turma</label>
-                    <select class="form-select" aria-label="Default select example" name="turma">
-                        <option selected>Escolha uma turma</option>
+                    <select class="form-select" aria-label="Default select example" name="turma" required>
+                        <option value="" disabled selected>Selecione uma turma</option>
                             <!-- LEMBRAR DO CÓDIGO ABAIXO (PORQUE FUNCIONA)
                             <option value="<%# r.turma %> ">SI8P13</option>-->
-                            <option value="si8p13">SI8P13</option>
+                            <option value="SI8P13">SI8P13</option>
                             <option value="SI7P13">SI7P13</option>
                             <option value="SI6P13">SI6P13</option>
                     </select>
