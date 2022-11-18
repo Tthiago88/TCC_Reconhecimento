@@ -149,7 +149,6 @@ app.get('/listarHome', function (req, res) {
 
 //carregar tela lista presenca
 app.get('/presenca', async function (req, res) {
-
     const viewra = "create or replace view ra as select distinct a.nome,a.RA,a.turma_aluno from aluno_tb as a;"
     const viewdata = "create or replace view data as select distinct l.data from lista_chamada as l;"
     const viewunico = "create or replace view unico as select d.data,a.RA,l.presenca,dis.nome_disciplina from ra as a join data as d ON d.data left join lista_chamada as l ON a.RA=l.Aluno_tb_RA left join disciplina as dis ON l.disciplina_idDisciplina=dis.idDisciplina where d.data=l.data;"

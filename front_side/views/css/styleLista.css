@@ -58,3 +58,8 @@
     display: flex;
     justify-content: flex-end;
 }
+.table-dados th{
+    position: sticky;
+    top: -.1px;
+    background-color: #fff;
+}
