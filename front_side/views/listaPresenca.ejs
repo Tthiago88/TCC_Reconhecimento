@@ -38,9 +38,9 @@
                         <option value="" disabled selected>Selecione uma turma</option>
                             <!-- LEMBRAR DO CÓDIGO ABAIXO (PORQUE FUNCIONA)
                             <option value="<%# r.turma %> ">SI8P13</option>-->
-                            <option value="SI8P13">SI8P13</option>
-                            <option value="SI7P13">SI7P13</option>
-                            <option value="SI6P13">SI6P13</option>
+                            <option value="si8p13">SI8P13</option>
+                            <option value="si7p13">SI7P13</option>
+                            <option value="si6p13">SI6P13</option>
                     </select>
                 </div>
                 <div class="button-enviar">
@@ -53,6 +53,7 @@
                 </div>    
             </form>    
         </div>
+        <form method="post" action="/validarTabela">
         <div class="table-dados">
             <table class="table table-bordered" >
                 <tr>
@@ -65,22 +66,32 @@
                 </tr>
                 <% lista.forEach(function(lista){ %>
                     <tr>   
-                        <td><%= lista.nome %></td>
-                        <td><%= lista.RA %></td>
-                        <td><%= lista.turma_aluno %></td>
+                        <td> <input type="hidden" name="lnome" value="<%= lista.nome %>"> <%= lista.nome %> </td>
+                        <td> <input type="hidden" name="lra" value="<%= lista.RA %>"> <%= lista.RA %> </td>
+                        <td> <input type="hidden" name="lturma" value="<%= lista.turma_aluno %>"><%= lista.turma_aluno %> </td>
                         <% if(lista.nome_disciplina != null){%> 
-                            <td><%= lista.nome_disciplina %></td>
+                            <td> <input type="hidden" name="ldisciplina" value="<%= lista.nome_disciplina %>"><%= lista.nome_disciplina %></td>
                             <% }else{ %>
-                                <td>Vazio</td>
+                                <td><input type="hidden" name="ldisciplina" value="vazio"> Vazio</td>
                             <% } %>
                         <% if(lista.data != null){%>
-                            <td><%= lista.data %></td>
-                            <% }else{ %> <td>Vazio</td> <% } %>
-                        <% if(lista.presenca ==1){ %> 
-                        <td><input class="form-check-input" type="checkbox" id="presenca" checked="<% lista.presenca %>"></td> 
+                            <td> <input type="hidden" name="ldata" value="<%= lista.data %>"><%= lista.data %></td>
+                            <% }else{ %> <td> <input type="hidden" name="ldata" value="vazio">Vazio</td> <% } %>
+                        <% if(lista.presenca ==1){ %>
+                            <td>
+                                <select class="form-select" aria-label="Default select example" name="lpresenca">
+                                    <option value="1" selected>Presente</option>
+                                </select> 
+                            </td> 
+                            <!-- <td><input class="form-check-input" type="checkbox" id="presenca" checked="<%# lista.presenca %>"></td>  -->
                         <% }else{%>
-                            <td><input class="form-check-input" type="checkbox" id="presenca"></td>
-                            <% }; %>     
+                            <td>
+                                <select class="form-select" aria-label="Default select example" name="lpresenca">
+                                    <option value="0" selected>Faltou</option>
+                                    <option value="1">Presente</option>
+                                </select> 
+                            </td>
+                         <% }; %>     
                     </tr>
                 <% }); %>    
             </table>
@@ -88,6 +99,7 @@
         <div class="button-up">
             <button class="btn-enviar btn btn-outline-success" type="submit">Validar</button>
         </div>
+        </form>
     </div>
 </body>
 </html>

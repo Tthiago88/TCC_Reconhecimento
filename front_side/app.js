@@ -165,6 +165,47 @@ app.get('/presenca', async function (req, res) {
     })
 });
 
+// ENVIAR LISTA DE PRESENÇA -- EM TESTES
+app.post('/validarTabela', async function(req,res){
+    var presenca = req.body.lpresenca;
+    var nome = req.body.lnome;
+    var ra = req.body.lra;
+    var disciplina = req.body.ldisciplina;
+    var turma = req.body.lturma;
+    var data = req.body.ldata;
+    var d = "engenharia de software";
+    const validar = "SELECT Aluno_tb_RA, data FROM lista_chamada WHERE Aluno_tb_RA = ? and data = ?;";
+    const update = "update lista_chamada set disciplina_idDisciplina = ? where RA= ?;";
+    const sql = "SELECT idDisciplina FROM disciplina WHERE nome_disciplina = ?;";
+        con.query(sql, [d], (err, rows) =>{ 
+            idDisciplina =rows;
+            console.log(data.toLocaleString("ko-KR"));
+            con.query(validar, [ra, data.toLocaleString("ko-KR")[0]], (err, rows)=>{
+                console.log(rows);
+                if(rows){
+                    con.query(update, [idDisciplina, ra], (err,rows)=>{
+                        
+                    })
+                }else{
+                    console.log("else");
+                }  
+            })
+        })
+    // const addPresenca = "insert into lista_chamada (Aluno_tb_RA, disciplina_idDisciplina, data, turma, presenca) values (?, ?, ?, ?, ?);"
+    // for(i =0; i<presenca.length; i++){
+    //     console.log(i);
+    //     if(iddisciplina =='1'){
+    //         const insertPresenca = await con.promise().query(addpresenca, [ra, idDisciplina, data, turma, presenca], (err) =>{
+    //             if(!err){
+    //                 console.log('lista atualizada');
+    //             }else{
+    //                 console.log(err);
+    //             }
+    //         })
+    //     }
+    // }
+});
+
 app.post('/voltar', async (req, res) => {
     res.redirect('/presenca')
 });
@@ -240,6 +281,7 @@ app.get('/cadastroProfessor', (req, res) => {
 })
 
 const multer = require('multer');
+const { addAbortSignal } = require('stream');
 
 // Configuração de armazenamento
 const upload = multer({
