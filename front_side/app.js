@@ -155,7 +155,7 @@ app.get('/presenca', async function (req, res) {
     const addRa = await con.promise().query(viewra)
     const adddata = await con.promise().query(viewdata)
     const addunico = await con.promise().query(viewunico)
-    const sql = "select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from data as d join ra as a ON a.RA left join unico as u ON u.RA union select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from ra as a join data as d ON d.data left join unico as u ON u.RA=a.RA order by presenca desc,turma_aluno;"
+    const sql = "select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from data as d join ra as a ON a.RA left join unico as u ON u.RA=a.RA and u.data=d.data union select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from ra as a join data as d ON d.data left join unico as u ON u.RA=a.RA and u.data=d.data order by presenca desc;"
 
     con.query(sql, (err, rows) => {
         const allRows = rows.map(row => {
