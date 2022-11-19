@@ -165,7 +165,7 @@ app.get('/presenca', async function (req, res) {
     })
 });
 
-// ENVIAR LISTA DE PRESENÇA -- EM TESTES
+// ENVIAR LISTA DE PRESENÇA -- FUNCIONA
 app.post('/validarTabela', async function(req,res){
     var presenca = req.body.lpresenca;
     var nome = req.body.lnome;
@@ -178,9 +178,8 @@ app.post('/validarTabela', async function(req,res){
     const update = "update lista_chamada set disciplina_idDisciplina = ? where RA= ?;";
     const sql = "SELECT idDisciplina FROM disciplina WHERE nome_disciplina = ?;";
     const insertP = "insert into lista_chamada (Aluno_tb_RA, disciplina_idDisciplina, data, turma, presenca) values (?, ?, ?, ?, ?);";
+    const addPresenca = "insert into lista_chamada (Aluno_tb_RA, disciplina_idDisciplina, data, turma, presenca) values (?, ?, ?, ?, ?);"
     const idDis = await con.promise().query(sql, [d]) 
-    // var idDis =rows;
-    // console.log(idDis[0,0].idDisciplina);
     console.log(data.length);
     for(i=0;i<data.length;i++){
         mdy = data[i];
@@ -191,37 +190,17 @@ app.post('/validarTabela', async function(req,res){
         let newData = [year+'-'+month+'-'+day];
         // console.log(typeof ra[i]);
         const pron = await con.promise().query(validar, [ra[i], newData])
-            // console.log(ra[i]);
-            // rows.forEach(rows=>{
-            //     console.log(ra[i]);
-            // })    
-            // console.log(rows[0]);
-            console.log(pron[0][0].Aluno_tb_RA);
-                if(pron[0][0].Aluno_tb_RA != 'undefined'){
-                    console.log("chegou até aqui.");
-                    // con.query("update lista_chamada set disciplina_idDisciplina = '"+idDis[0,0].idDisciplina+"' where Aluno_tb_RA= '"+ra[0]+"';", (err,rows)=>{
-                        
-                    // })
-                }else{
-                    console.log("se não der certo vem pra cá.");
-                    // con.query(insertP, (err,rows)=>{
-
-                    // })
-                }  
+        var idDisciplina = idDis[0][0].idDisciplina;   
+        // console.log(pron[0]?.[0]?.Aluno_tb_RA);
+        if(typeof pron?.[0]?.[0]?.Aluno_tb_RA !== 'undefined'){
+            con.query("update lista_chamada set disciplina_idDisciplina = '"+idDis[0,0].idDisciplina+"' where Aluno_tb_RA= '"+ra[0]+"';", (err,rows)=>{
+                console.log("RA: "+ra[i]+" alterado.");
+            })
+        }else{
+            console.log("Insert na lista presença RA: "+ra[i]);
+            const insertPresenca = await con.promise().query(addPresenca, [ra[i], idDisciplina, newData, turma[i], presenca[i]])
+        }  
     }  
-    // const addPresenca = "insert into lista_chamada (Aluno_tb_RA, disciplina_idDisciplina, data, turma, presenca) values (?, ?, ?, ?, ?);"
-    // for(i =0; i<presenca.length; i++){
-    //     console.log(i);
-    //     if(iddisciplina =='1'){
-    //         const insertPresenca = await con.promise().query(addpresenca, [ra, idDisciplina, data, turma, presenca], (err) =>{
-    //             if(!err){
-    //                 console.log('lista atualizada');
-    //             }else{
-    //                 console.log(err);
-    //             }
-    //         })
-    //     }
-    // }
 });
 
 app.post('/voltar', async (req, res) => {
