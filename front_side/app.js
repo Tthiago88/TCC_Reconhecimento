@@ -177,20 +177,38 @@ app.post('/validarTabela', async function(req,res){
     const validar = "SELECT Aluno_tb_RA, data FROM lista_chamada WHERE Aluno_tb_RA = ? and data = ?;";
     const update = "update lista_chamada set disciplina_idDisciplina = ? where RA= ?;";
     const sql = "SELECT idDisciplina FROM disciplina WHERE nome_disciplina = ?;";
-        con.query(sql, [d], (err, rows) =>{ 
-            idDisciplina =rows;
-            console.log(data.toLocaleString("ko-KR"));
-            con.query(validar, [ra, data.toLocaleString("ko-KR")[0]], (err, rows)=>{
-                console.log(rows);
-                if(rows){
-                    con.query(update, [idDisciplina, ra], (err,rows)=>{
+    const insertP = "insert into lista_chamada (Aluno_tb_RA, disciplina_idDisciplina, data, turma, presenca) values (?, ?, ?, ?, ?);";
+    const idDis = await con.promise().query(sql, [d]) 
+    // var idDis =rows;
+    // console.log(idDis[0,0].idDisciplina);
+    console.log(data.length);
+    for(i=0;i<data.length;i++){
+        mdy = data[i];
+        mdy = mdy.split('/');
+        var day = parseInt(mdy[0]);
+        var month = parseInt(mdy[1]);
+        var year = parseInt(mdy[2]);
+        let newData = [year+'-'+month+'-'+day];
+        // console.log(typeof ra[i]);
+        const pron = await con.promise().query(validar, [ra[i], newData])
+            // console.log(ra[i]);
+            // rows.forEach(rows=>{
+            //     console.log(ra[i]);
+            // })    
+            // console.log(rows[0]);
+            console.log(pron[0][0].Aluno_tb_RA);
+                if(pron[0][0].Aluno_tb_RA != 'undefined'){
+                    console.log("chegou até aqui.");
+                    // con.query("update lista_chamada set disciplina_idDisciplina = '"+idDis[0,0].idDisciplina+"' where Aluno_tb_RA= '"+ra[0]+"';", (err,rows)=>{
                         
-                    })
+                    // })
                 }else{
-                    console.log("else");
+                    console.log("se não der certo vem pra cá.");
+                    // con.query(insertP, (err,rows)=>{
+
+                    // })
                 }  
-            })
-        })
+    }  
     // const addPresenca = "insert into lista_chamada (Aluno_tb_RA, disciplina_idDisciplina, data, turma, presenca) values (?, ?, ?, ?, ?);"
     // for(i =0; i<presenca.length; i++){
     //     console.log(i);
