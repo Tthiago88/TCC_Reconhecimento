@@ -294,6 +294,7 @@ app.get('/cadastroProfessor', (req, res) => {
 
 const multer = require('multer');
 const { addAbortSignal } = require('stream');
+const { render } = require('ejs');
 
 // Configuração de armazenamento
 const upload = multer({
@@ -346,23 +347,44 @@ app.post('/update', (req, res) => {
 });
 
 //DELETE usuario
-app.post('/update', (req, res) => {
-    var nome = req.body.nome;
-    var cpf = req.body.cpf;
-    var responsavel = req.body.respon;
-    var id = req.body.id;
-    let stat = "DELETE aluno WHERE id_aluno= " + id + ";";
-    con.query(stat, (err, result) => {
+app.post('/telaUpdate', (req, res) => {
+    var nome = req.body.upNome;
+    var ra = req.body.upRa;
+    var turma = req.body.lTurma;
+    let stat = " SELECT RA, nome, senha, turma_aluno, image_aluno FROM aluno_tb WHERE ra= ? and turma_aluno = ?;";
+    console.log(ra, nome, turma);
+    con.query(stat, [ra, turma], (err, rows) => {
         if (!err) {
-            res.render('usuario', { mensagem: "Usuário excluído com sucesso" });
-            console.log("usuário excluido com sucesso");
-            console.log(nome, cpf, responsavel);
+            res.render('atualizarAluno', {aluno:rows});
         } else {
-            res.render('usuario', { mensagem: "Erro ao excluir o usuário" });
-            console.log(err);
         }
     });
 });
+
+app.post('/atualizarAluno', upload.single('img'), (req, res)=> {
+    var nome = req.body.nome;
+    var ra = req.body.ra;
+    var turma = req.body.turma;
+    var senha = req.body.senha;
+    var img = req.body.img;
+    const selectAluno = "SELECT nome,RA,turma_aluno FROM aluno_tb;"
+    const selectProfessor = "SELECT nome,RA FROM professores;"
+    const UpAluno = "update Aluno_tb set nome= ?, senha= ?, turma_aluno= ?, image_aluno= ? where ra= ?;";
+    con.query(UpAluno, [nome, senha, turma, img, ra], (err, row)=>{
+        if(!err){
+            con.query(selectAluno, (err, rows) => {
+                if (!err) {
+                    con.query(selectProfessor, (err, result) => {
+                        if (!err) {
+                            res.render('homeColaborador', { listaAluno: rows, listaProf: result, menssagem:"Alterado com Sucesso!"});
+                        }
+                    })
+                }
+            })
+        }
+    })
+});
+
 
 // Inserir na tabela PROFESSOR
 app.post('/insertProf', (req, res) => {

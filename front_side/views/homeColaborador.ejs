@@ -22,34 +22,42 @@
         </div>
     </nav>
     <div class="geral">
+        <% if (typeof menssagem !== 'undefined') { %>
+            <div class="alert alert-success" role="alert">
+                <%= menssagem %> 
+            </div>
+        <% } %>
         <h1 class="title">Alunos</h1>
         <form action="/listarAluno" method="post">
-        <div class="home">
-            <div class="form">
-                <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
-                <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="raAluno" required></inpinput>
-            </div>
-            <div class="button-enviar">
-                <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
-            </div>
-        </div>
-        <div class="table-dados">
-            <table class="table table-bordered" >
-                <tr>
-                    <th>   NOME  </th>
-                    <th>   RA   </th>
-                    <th>  TURMA  </th>
-                </tr>
-                <% listaAluno.forEach(function(listaAluno){ %>
-                    <tr>   
-                        <td><%= listaAluno.nome %></td>
-                        <td><%= listaAluno.RA %></td>
-                        <td><%= listaAluno.turma_aluno %></td>    
+            <div class="home">
+                <div class="form">
+                    <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
+                    <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="raAluno" required></inpinput>
+                </div>
+                <div class="button-enviar">
+                    <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
+                </div>
+            </div>    
+            <div class="table-dados">
+                <table class="table table-bordered" >
+                    <tr>
+                        <th>   NOME  </th>
+                        <th>   RA   </th>
+                        <th>  TURMA  </th>
                     </tr>
-                <% }); %>    
-            </table>
-        </div>
-        </form>
+                    <form action="/telaUpdate" method="post">   
+                    <% listaAluno.forEach(function(listaAluno){ %>
+                            <tr>   
+                                <td><input type="hidden" name="upNome" value="<%= listaAluno.nome %>"><%= listaAluno.nome %></td>
+                                <td><input type="hidden" name="upRa" value="<%= listaAluno.RA %>"><%= listaAluno.RA %></td>
+                                <td><input type="hidden" name="lTurma" value="<%= listaAluno.turma_aluno %>"><%= listaAluno.turma_aluno %></td>
+                                <td><button class="btn-enviar btn btn-outline-secondary" type="submit">Alterar</button></td>   
+                            </tr>    
+                    <% }); %>
+                    </form>     
+                </table>
+            </div>
+        </form>    
     </div>
     <div class="geral">
         <h1 class="title">Professores</h1>

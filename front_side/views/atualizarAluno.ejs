@@ -22,8 +22,10 @@
             </div>
         </nav>
         <div class="body">
-            <h1 class="titulo">Cadastro de Alunos</h1>
-            <form action="/insert" method="post" enctype="multipart/form-data">     
+            <h1 class="titulo">Atualizar cadastro de Alunos</h1>
+            <form action="/insert" method="post" enctype="multipart/form-data">
+            <% if(typeof aluno !== 'undefined'){ %>     
+            <% aluno.forEach(function(aluno){%> 
             <div class="geral">
                 <!-- MENSAGEM DE CADASTRADO -->
                 <% if (typeof messageAluno !== 'undefined') { %>
@@ -40,18 +42,17 @@
                     <div class="home">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Nome</label>
-                            <input type="nome" class="form-control" id="exampleFormControlInput1" placeholder="Digite o nome" name="nome" required>
+                            <input type="nome" class="form-control" id="exampleFormControlInput1" value="<%= aluno.nome %> " name="nome" required>
                         </div>
                         <div class="form">
                             <label for="exampleFormControlInput1" class="form-label">Turma</label>
-                            <input type="text" class="form-control" list="turma" name="turma" required>
+                            <select class="form-select" aria-label="Default select example" name="turma" required>
                             <!-- ISSO PARACE UMA BOA OPÇÃO -->
-                            <datalist id="turma">
-                                <option selected disabled>Escolha uma turma</option>
-                                <option value="SI8P13"></option>
-                                <option value="SI7P13"></option>
-                                <option value="SI6P13"></option>
-                            </datalist>
+                                <option selected value="<%= aluno.turma_aluno %> "><%= aluno.turma_aluno %></option>
+                                <option value="si8p13"> SI8P13</option>
+                                <option value="si7p13"> SI7P13</option>
+                                <option value="si6p13"> SI6P13</option>
+                            </select>    
                             <!-- <select class="form-select" aria-label="Default select example" name="turma">
                                 <option selected disabled>Escolha uma turma</option>
                                 <option value="1">SI8P13</option>
@@ -63,24 +64,26 @@
                     <div class="home1">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
-                            <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="ra" maxlength="7" minlength="7" required>
+                            <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="ra" value="<%= aluno.RA %> " maxlength="7" minlength="7" required readonly>
                         </div>
                         <div class="form">
                             <label for="inputPassword" class="form-label">Senha</label>
                         <div>
-                            <input type="password" class="form-control" id="inputPassword" placeholder="Digite a senha" name="senha" required>
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Digite a senha" name="senha" value="<%= aluno.senha %> " required>
                             </div>
                         </div>
                     </div>
                     <div class="input">
                         <div class="input-group">
-                            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="img" required>
+                            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="img" placeholder="<%= aluno.image_aluno %> " required>
                         </div>
                     </div>
                     <center>
                         <button class="btn-enviar btn btn-outline-secondary" type="submit">Enviar</button>
                     </center>
                 </form>
+                <% }); %>
+                <% }; %>  
             </div>
     </div>    
 </body>
