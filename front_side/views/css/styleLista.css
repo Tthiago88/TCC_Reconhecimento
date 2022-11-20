@@ -54,9 +54,14 @@
 .table{
     text-align: center;
 }
-.button-up{
+.validar{
     display: flex;
     justify-content: flex-end;
+    padding-top: 1.5rem;
+}
+.form-val{
+    max-width: 15rem;
+    margin-right: 2rem;
 }
 .table-dados th{
     position: sticky;

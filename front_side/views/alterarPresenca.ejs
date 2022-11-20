@@ -21,12 +21,6 @@
     <div class="geral-lista">
         <h1 class="title">Lista chamada</h1>
         <form action="/consultarPresenca" method="post">
-            <!-- MENSAGEM DE ERRO -->
-            <% if (typeof message !== 'undefined') { %>
-                <div class="alert alert-danger" role="alert">
-                    <%= message %> 
-                </div>
-            <% } %>
         <div class="home">
                 <div class="form">
                     <label for="exampleFormControlInput1" class="form-label">Escolha uma data</label>
@@ -79,23 +73,37 @@
                             <% }else{ %> <td> <input type="hidden" name="ldata" value="vazio">Vazio</td> <% } %>
                         <% if(lista.presenca == 1){ %>
                             <td>
-                                <label aria-label="Default select example" name="lpresenca">
+                                <select class="form-select" aria-label="Default select example" name="lpresenca">
                                     <option value="1" selected>Presente</option>
-                                </label> 
+                                </select> 
                             </td> 
                             <!-- <td><input class="form-check-input" type="checkbox" id="presenca" checked="<%# lista.presenca %>"></td>  -->
                         <% }else{%>
                             <td>
-                                <label aria-label="Default select example" name="lpresenca">
+                                <select class="form-select" aria-label="Default select example" name="lpresenca">
                                     <option value="0" selected>Faltou</option>
-                                </label> 
+                                    <option value="1">Presente</option>
+                                </select> 
                             </td>
                          <% }; %>     
                     </tr>
                 <% }); %>    
             </table>
         </div>
-        </form>
+        <div class="validar">
+            <select class="form-val form-select" aria-label="Default select example" name="disciplina" required>
+                <option value="" selected disabled>Escolha uma Discipina</option>
+                        <% if(typeof varDisciplina !=='undefined'){ %>
+                            <% varDisciplina.forEach(function(varDisciplina){ %>  
+                            <option value="<%= varDisciplina.nome_disciplina %>"><%= varDisciplina.nome_disciplina %></option>
+                            <% }); %>
+                        <% }; %>      
+                    </select>
+            <div class="button-up">
+                <button class="btn-enviar btn btn-outline-success" type="submit">Validar</button>
+            </div>
+        </div>
+    </form>
     </div>
 </body>
 </html>

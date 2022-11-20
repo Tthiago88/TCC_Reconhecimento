@@ -165,22 +165,36 @@ app.get('/presenca', async function (req, res) {
     })
 });
 
+//Listar tela AlterarPresenca
+app.get('/listarPresenca',async function(req,res){
+    const sql = "select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from data as d join ra as a ON a.RA left join unico as u ON u.RA union select a.nome,a.RA,a.turma_aluno,u.nome_disciplina,d.data,u.presenca from ra as a join data as d ON d.data left join unico as u ON u.RA=a.RA order by presenca desc;"
+    const dis="select nome_disciplina from disciplina;"
+    con.query(sql, (err, rows) => {
+        if (!err) {
+            const allRows = rows.map(row => {
+                return { ...row, data: new Date(row.data).toLocaleString("pt-br").slice(0, 10) }
+            })
+            con.query(dis, (err, rows) => {
+                if (!err) {
+                    res.render('alterarPresenca', { lista: allRows, varDisciplina: rows  });
+                }else{console.log(err);}
+            })
+        } else {console.log(err);}
+    })
+});
+
 // ENVIAR LISTA DE PRESENÇA -- FUNCIONA
 app.post('/validarTabela', async function(req,res){
     var presenca = req.body.lpresenca;
     var nome = req.body.lnome;
     var ra = req.body.lra;
-    var disciplina = req.body.ldisciplina;
+    var disciplina = req.body.disciplina;
     var turma = req.body.lturma;
     var data = req.body.ldata;
-    var d = "engenharia de software";
     const validar = "SELECT Aluno_tb_RA, data FROM lista_chamada WHERE Aluno_tb_RA = ? and data = ?;";
-    const update = "update lista_chamada set disciplina_idDisciplina = ? where RA= ?;";
     const sql = "SELECT idDisciplina FROM disciplina WHERE nome_disciplina = ?;";
-    const insertP = "insert into lista_chamada (Aluno_tb_RA, disciplina_idDisciplina, data, turma, presenca) values (?, ?, ?, ?, ?);";
     const addPresenca = "insert into lista_chamada (Aluno_tb_RA, disciplina_idDisciplina, data, turma, presenca) values (?, ?, ?, ?, ?);"
-    const idDis = await con.promise().query(sql, [d]) 
-    console.log(data.length);
+    const idDis = await con.promise().query(sql, [disciplina])
     for(i=0;i<data.length;i++){
         mdy = data[i];
         mdy = mdy.split('/');
@@ -190,17 +204,19 @@ app.post('/validarTabela', async function(req,res){
         let newData = [year+'-'+month+'-'+day];
         // console.log(typeof ra[i]);
         const pron = await con.promise().query(validar, [ra[i], newData])
-        var idDisciplina = idDis[0][0].idDisciplina;   
+        var idDisciplina = idDis[0][0].idDisciplina;  
+        console.log(idDisciplina) 
+        
         // console.log(pron[0]?.[0]?.Aluno_tb_RA);
         if(typeof pron?.[0]?.[0]?.Aluno_tb_RA !== 'undefined'){
-            con.query("update lista_chamada set disciplina_idDisciplina = '"+idDis[0,0].idDisciplina+"' where Aluno_tb_RA= '"+ra[0]+"';", (err,rows)=>{
-                console.log("RA: "+ra[i]+" alterado.");
-            })
+            const update= await con.promise().query("update lista_chamada set disciplina_idDisciplina = '"+idDisciplina+"',presenca='"+presenca[i]+"' where Aluno_tb_RA= '"+ra[i]+"'and data='"+newData+"';")
+            console.log("RA: "+ra[i]+" alterado.");
         }else{
-            console.log("Insert na lista presença RA: "+ra[i]);
             const insertPresenca = await con.promise().query(addPresenca, [ra[i], idDisciplina, newData, turma[i], presenca[i]])
-        }  
+            console.log("Insert na lista presença RA: "+ra[i]);
+        }
     }  
+    res.redirect('/listarPresenca')
 });
 
 app.post('/voltar', async (req, res) => {
@@ -216,7 +232,7 @@ app.post('/sair', async (req, res) => {
 app.get('/consultaAluno', function (req, res) {
     const a = "select nome_disciplina from disciplina;"
     con.query(a, (err, rows) => {
-        res.render('consultaAluno.ejs', { varDisciplina: rows });
+        res.render('consultaAluno', { varDisciplina: rows });
     })
 });
 
@@ -224,7 +240,6 @@ app.get('/consultaAluno', function (req, res) {
 app.post('/consultaA', async function (req, res) {
     const ra = await req.session.login
     const disciplina = req.body.disciplina;
-    // let ra = 'n333001';
     const a = "select nome_disciplina from disciplina;"
     const queryAluno = "select a.nome, a.RA, l.turma, l.presenca, d.nome_disciplina, l.data from aluno_tb as a left join lista_chamada as l on a.RA = l.Aluno_tb_RA join disciplina as d on l.disciplina_idDisciplina = d.idDisciplina where a.RA='" + ra + "' and d.nome_disciplina = '" + disciplina + "';"
     con.query(queryAluno, (err, rows) => {
@@ -246,6 +261,7 @@ app.post('/consultarPresenca', async function (req, res) {
     const dropdata = "drop view IF EXISTS data;"
     const deleteRa = "drop view IF EXISTS ra;"
     const deleteUnico = "drop view IF EXISTS unico;"
+    const dis="select nome_disciplina from disciplina;"
     const function1 = await con.promise().query(deleteRa)
     const function2 = await con.promise().query(dropdata)
     const function3 = await con.promise().query(deleteUnico)
@@ -257,18 +273,17 @@ app.post('/consultarPresenca', async function (req, res) {
     const addunico = await con.promise().query(viewunico)
     con.query(sql, (err, rows) => {
         if (!err) {
-            con.query(sql, (err, rows) => {
-                const allRows = rows.map(row => {
-                    return { ...row, data: new Date(row.data).toLocaleString("pt-br").slice(0, 10) }
-                })
-                res.render('listaPresenca', { lista: allRows });
+            const allRows = rows.map(row => {
+                return { ...row, data: new Date(row.data).toLocaleString("pt-br").slice(0, 10) }
             })
-        } else {
-            console.log(err);
-        }
+            con.query(dis, (err, rows) => {
+                if (!err) {
+                    res.render('alterarPresenca', { lista: allRows, varDisciplina: rows  });
+                }else{console.log(err);}
+            })
+        } else {console.log(err);}
     })
-})
-
+});
 
 app.get('/cadastroAluno', (req, res) => {
     res.render('cadastroAluno')
