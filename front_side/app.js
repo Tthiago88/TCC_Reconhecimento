@@ -125,7 +125,7 @@ app.post('/listarProf', function (req, res) {
         if (!err) {
             con.query(selectProfessor, (err, result) => {
                 if (!err) {
-                    res.render('homeColaborador', { listaAluno: rows, listaProf: result });
+                    res.render('homeColaborador', { listaAluno: rows, listaProf: result, btn:true, repassProf:true});
                 }
             })
         }
@@ -346,7 +346,6 @@ app.post('/update', (req, res) => {
     });
 });
 
-//DELETE usuario
 app.post('/telaUpdate', (req, res) => {
     var nome = req.body.upNome;
     var ra = req.body.upRa;
@@ -386,7 +385,6 @@ app.post('/atualizarAluno', upload.single('img'), (req, res)=> {
     })
 });
 
-
 // Inserir na tabela PROFESSOR
 app.post('/insertProf', (req, res) => {
     var ra = req.body.raProf;
@@ -403,6 +401,32 @@ app.post('/insertProf', (req, res) => {
         }
     });
 });
+
+// Ir para a tela Update Professor -- (FUNCIONA)
+app.post('/ToUpdateProfessor', (req, res)=>{
+    var raProfessor = req.body.upPra;
+    const selectProf = "SELECT RA, nome, senha FROM professores WHERE RA = ?;";
+    con.query(selectProf, [raProfessor], (err, rows)=>{
+        if(!err){
+            res.render('atualizar_professor', {professor:rows});
+        }
+    })
+});
+
+// UPDATE/atualizar tabela Professor -- (FUNCIONA)
+app.post('/updateProfessor', (req, res)=>{
+    var nomeProf = req.body.Pnome;
+    var raProfessor = req.body.raProf;
+    var senhaProf = req.body.senha;
+    const UpProf = "update professores set nome= ?, senha= ? where ra= ?;";
+    con.query(UpProf, [nomeProf, senhaProf, raProfessor], (err, rows)=>{
+        if(!err){
+            console.log("DEU CERTO!!!!");
+        }else{
+            console.log("erro"+err);
+        }
+    })
+})
 
 // let data = new Date();
 // console.log(data)

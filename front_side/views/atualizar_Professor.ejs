@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta nome="viewport" content="width=device-width, initial-scale=1,0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Cadastro Professor</title>
+</head>
+    <body>
+        <nav class="navbar bg-light">
+            <div class="container-fluid">
+                <div>
+                    <a href="/listarHome" class="navbar-brand">Classroom</a>
+                    <a href="/cadastroAluno" class="nav-prof navbar-brand">Cadastro Aluno</a>
+                </div>
+                <form action="/sair" method="post" class="d-flex" role="search">
+                    <button type="submit" class="btn btn-outline-danger">Sair</button>
+                </form>
+            </div>
+        </nav>
+        <div class="body">
+            <h1 class="titulo">Atualizar cadastro Professor</h1>
+            <form action="/updateProfessor" method="post">
+                <% if(typeof professor !== 'undefined'){ %>
+                <% professor.forEach(function(professor){ %> 
+                    <div class="geral"> 
+                        <!-- MENSAGEM DE CADASTRADO -->
+                        <% if (typeof messageProf !== 'undefined') { %>
+                            <div class="alert alert-success" role="alert">
+                                <%= messageProf %> 
+                            </div>
+                        <% } %>
+                        <!-- MENSAGEM DE ERRO -->
+                        <% if (typeof messageErro !== 'undefined') { %>
+                            <div class="alert alert-danger" role="alert">
+                                <%= messageErro %> 
+                            </div>
+                        <% } %>
+                        <div class="home">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Nome</label>
+                                <input type="nome" class="form-control" id="exampleFormControlInput1" value="<%= professor.nome %> " name="Pnome" required>
+                            </div>
+                            <div class="form">
+                                <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
+                                <input type="ra" class="form-control" id="exampleFormControlInput1" value="<%= professor.RA %> " name="raProf" maxlength="7" minlength="7" readonly>
+                            </div>
+                        </div>
+                        <div class="home1">
+                            <div class="form">
+                                <label for="inputPassword" class="form-label">Senha</label>
+                                <div>
+                                    <input type="password" class="form-control" id="inputPassword" value="<%= professor.senha %> " name="senha" required>
+                                </div>
+                            </div>
+                        </div>
+                        <center>
+                            <button class="btn-enviar btn btn-outline-secondary" type="submit">Enviar</button>
+                        </center>
+                    </div>
+                <% }); %>
+                <% }; %>
+            </form>   
+        </div>    
+    </body>
+</html>
