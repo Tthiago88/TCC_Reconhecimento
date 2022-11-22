@@ -110,7 +110,7 @@ app.post('/listarAluno', function (req, res) {
         if (!err) {
             con.query(selectProfessor, (err, result) => {
                 if (!err) {
-                    res.render('homeColaborador', { listaAluno: rows, listaProf: result, repassAluno:raAluno});
+                    res.render('homeColaborador', { listaAluno: rows, listaProf: result, repassAluno:raAluno, btn:true});
                 }
             })
         }
@@ -125,7 +125,7 @@ app.post('/listarProf', function (req, res) {
         if (!err) {
             con.query(selectProfessor, (err, result) => {
                 if (!err) {
-                    res.render('homeColaborador', { listaAluno: rows, listaProf: result, btn:true, repassProf:true});
+                    res.render('homeColaborador', { listaAluno: rows, listaProf: result, btn:true, repassProf:raProf});
                 }
             })
         }
@@ -419,11 +419,19 @@ app.post('/updateProfessor', (req, res)=>{
     var raProfessor = req.body.raProf;
     var senhaProf = req.body.senha;
     const UpProf = "update professores set nome= ?, senha= ? where ra= ?;";
+    const selectAluno = "SELECT nome,RA,turma_aluno FROM aluno_tb;"
+    const selectProfessor = "SELECT nome,RA FROM professores;"
     con.query(UpProf, [nomeProf, senhaProf, raProfessor], (err, rows)=>{
         if(!err){
-            console.log("DEU CERTO!!!!");
-        }else{
-            console.log("erro"+err);
+            con.query(selectAluno, (err, rows) => {
+                if (!err) {
+                    con.query(selectProfessor, (err, result) => {
+                        if (!err) {
+                            res.render('homeColaborador', { listaAluno: rows, listaProf: result, menssagemP:"Alterado com Sucesso!"});
+                        }
+                    })
+                }
+            })
         }
     })
 })

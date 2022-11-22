@@ -56,7 +56,9 @@
                         <td><input type="hidden" name="upNome" value="<%= listaAluno.nome %>"><%= listaAluno.nome %></td>
                         <td><input type="hidden" name="upRa" value="<%= listaAluno.RA %>"><%= listaAluno.RA %></td>
                         <td><input type="hidden" name="lTurma" value="<%= listaAluno.turma_aluno %>"><%= listaAluno.turma_aluno %></td>
+                        <% if(typeof btn !== 'undefined' && btn == true){ %>
                         <td><button class="btn-enviar btn btn-outline-secondary" type="submit">Alterar</button></td>
+                        <% }; %> 
                     </tr>    
                 <% }); %>
             </form>
@@ -64,12 +66,21 @@
     </div>    
     </div>
     <div class="geral">
+        <% if (typeof menssagemP !== 'undefined') { %>
+            <div class="alert alert-success" role="alert">
+                <%= menssagemP %> 
+            </div>
+        <% } %>
         <h1 class="title">Professores</h1>
         <form action="/listarProf" method="post">
             <div class="home">
                 <div class="form">
                     <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
-                    <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="raProf"required></input>
+                    <% if(typeof repassProf !== 'undefined'){%>
+                    <input type="ra" class="form-control" id="exampleFormControlInput1" value="<%= repassProf %> " name="raProf"required></input>
+                    <% }else{ %>
+                        <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="raProf"required></input>
+                    <% }; %>      
                 </div>
                 <div class="button-enviar">
                     <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
