@@ -110,7 +110,7 @@ app.post('/listarAluno', function (req, res) {
         if (!err) {
             con.query(selectProfessor, (err, result) => {
                 if (!err) {
-                    res.render('homeColaborador', { listaAluno: rows, listaProf: result });
+                    res.render('homeColaborador', { listaAluno: rows, listaProf: result, repassAluno:raAluno});
                 }
             })
         }
@@ -361,15 +361,16 @@ app.post('/telaUpdate', (req, res) => {
     });
 });
 
+// Atualização do aluno -- (FUNCIONA)
 app.post('/atualizarAluno', upload.single('img'), (req, res)=> {
     var nome = req.body.nome;
     var ra = req.body.ra;
     var turma = req.body.turma;
     var senha = req.body.senha;
-    var img = req.body.img;
+    var img = req.file.originalname;
     const selectAluno = "SELECT nome,RA,turma_aluno FROM aluno_tb;"
     const selectProfessor = "SELECT nome,RA FROM professores;"
-    const UpAluno = "update Aluno_tb set nome= ?, senha= ?, turma_aluno= ?, image_aluno= ? where ra= ?;";
+    const UpAluno = "update aluno_tb set nome= ?, senha= ?, turma_aluno= ?, image_aluno= ? where ra= ?;";
     con.query(UpAluno, [nome, senha, turma, img, ra], (err, row)=>{
         if(!err){
             con.query(selectAluno, (err, rows) => {
