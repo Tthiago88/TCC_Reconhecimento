@@ -385,6 +385,31 @@ app.post('/atualizarAluno', upload.single('img'), (req, res)=> {
     })
 });
 
+// DELETE CADASTRO Aluno -- (FUNCIONA)
+app.post('/excluirAluno', (req,res)=>{
+    var ra = req.body.upRa;
+    console.log(ra);
+    const deleteAluno = "DELETE FROM aluno_tb WHERE RA= ?;";
+    const selectAluno = "SELECT nome,RA,turma_aluno FROM aluno_tb;";
+    const selectProfessor = "SELECT nome,RA FROM professores;";
+    con.query(deleteAluno, [ra], (err, rows)=>{
+        if(!err){
+            console.log("Aluno ra: "+ra+" excluído");
+            con.query(selectAluno, (err, rows) => {
+                if (!err) {
+                    con.query(selectProfessor, (err, result) => {
+                        if (!err) {
+                            res.render('homeColaborador', { listaAluno: rows, listaProf: result, menssagem:"Aluno "+ra+" excluído com sucesso"});
+                        }
+                    })
+                }
+            })
+        }else{
+            console.log(err);
+        }
+    })
+});
+
 // Inserir na tabela PROFESSOR
 app.post('/insertProf', (req, res) => {
     var ra = req.body.raProf;
@@ -434,7 +459,30 @@ app.post('/updateProfessor', (req, res)=>{
             })
         }
     })
-})
+});
+
+// DELETE CADASTRO professor -- (FUNCIONA)
+app.post('/excluirProfessor', (req,res)=>{
+    var ra = req.body.upPra;
+    console.log(ra);
+    const deleteProf = "DELETE FROM professores WHERE RA = ?;";
+    const selectAluno = "SELECT nome,RA,turma_aluno FROM aluno_tb;";
+    const selectProfessor = "SELECT nome,RA FROM professores;";
+    con.query(deleteProf, [ra], (err, rows)=>{
+        if(!err){
+            console.log("Professor ra:"+ra+"excluído");
+            con.query(selectAluno, (err, rows) => {
+                if (!err) {
+                    con.query(selectProfessor, (err, result) => {
+                        if (!err) {
+                            res.render('homeColaborador', { listaAluno: rows, listaProf: result, menssagemP:"Usuário "+ra+" excluído com sucesso"});
+                        }
+                    })
+                }
+            })
+        }
+    })
+});
 
 // let data = new Date();
 // console.log(data)
