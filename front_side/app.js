@@ -125,7 +125,7 @@ app.post('/listarProf', function (req, res) {
         if (!err) {
             con.query(selectProfessor, (err, result) => {
                 if (!err) {
-                    res.render('homeColaborador', { listaAluno: rows, listaProf: result, btn:true, repassProf:raProf});
+                    res.render('homeColaborador', { listaAluno: rows, listaProf: result, btnpro:true, repassProf:raProf});
                 }
             })
         }
@@ -366,23 +366,40 @@ app.post('/atualizarAluno', upload.single('img'), (req, res)=> {
     var ra = req.body.ra;
     var turma = req.body.turma;
     var senha = req.body.senha;
-    var img = req.file.originalname;
+    // var img = req.file.originalname;
     const selectAluno = "SELECT nome,RA,turma_aluno FROM aluno_tb;"
     const selectProfessor = "SELECT nome,RA FROM professores;"
     const UpAluno = "update aluno_tb set nome= ?, senha= ?, turma_aluno= ?, image_aluno= ? where ra= ?;";
-    con.query(UpAluno, [nome, senha, turma, img, ra], (err, row)=>{
-        if(!err){
-            con.query(selectAluno, (err, rows) => {
-                if (!err) {
-                    con.query(selectProfessor, (err, result) => {
-                        if (!err) {
-                            res.render('homeColaborador', { listaAluno: rows, listaProf: result, menssagem:"Alterado com Sucesso!"});
-                        }
-                    })
-                }
-            })
-        }
-    })
+    const UpAlunoNoimg = "update aluno_tb set nome= ?, senha= ?, turma_aluno= ? where ra= ?;";
+    if(typeof req.file !== 'undefined'){
+        con.query(UpAluno, [nome, senha, turma, req.file.originalname, ra], (err, row)=>{
+            if(!err){
+                con.query(selectAluno, (err, rows) => {
+                    if (!err) {
+                        con.query(selectProfessor, (err, result) => {
+                            if (!err) {
+                                res.render('homeColaborador', { listaAluno: rows, listaProf: result, menssagem:"Alterado com Sucesso!"});
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }else{
+        con.query(UpAlunoNoimg, [nome, senha, turma, ra], (err, row)=>{
+            if(!err){
+                con.query(selectAluno, (err, rows) => {
+                    if (!err) {
+                        con.query(selectProfessor, (err, result) => {
+                            if (!err) {
+                                res.render('homeColaborador', { listaAluno: rows, listaProf: result, menssagem:"Alterado com Sucesso!"});
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }
 });
 
 // DELETE CADASTRO Aluno -- (FUNCIONA)

@@ -99,7 +99,7 @@
                         <tr>   
                             <td><input type="hidden" name="upPnome" value="<%= listaProf.nome %>"><%= listaProf.nome %></td>
                             <td><input type="hidden" name="upPra" value="<%= listaProf.RA %>"><%= listaProf.RA %></td>
-                            <% if(typeof btn !== 'undefined' && btn == true){ %>
+                            <% if(typeof btnpro !== 'undefined' && btnpro == true){ %>
                                 <td><button class="btn-enviar btn btn-outline-secondary" type="submit">Alterar</button></td>
                                 <td><button class="btn-enviar btn btn-outline-secondary" type="submit" formaction="/excluirProfessor" onclick="return confirm('Você tem certeza que quer excluir esse cadastro?')">Excluir</button></td>
                             <% } %>     
