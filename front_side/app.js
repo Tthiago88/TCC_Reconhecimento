@@ -301,7 +301,7 @@ const upload = multer({
   storage: multer.diskStorage({
     destination: 'uploads/',
     filename(req, file, callback) {
-      const fileName = `${file.originalname}`
+      const fileName = `${req.body.ra+'.jpg'}`
       return callback(null, fileName)
     },
   }),
@@ -313,7 +313,7 @@ app.post('/insert',upload.single('img'),(req, res) => {
     var nome = req.body.nome;
     var senha = req.body.senha;
     var turma_aluno = req.body.turma;
-    var image = req.file.originalname;
+    var image = req.body.ra+'jpg';
     var colaborador = 1;
     let stat = "INSERT INTO Aluno_tb(RA, nome, senha, turma_aluno, image_aluno, Colaborador_tb_idColaborador) VALUES (?, ?, ?, ?, ?, ?)";
     con.query(stat, [ra, nome, senha, turma_aluno, image, colaborador], (err, result) => {
@@ -372,7 +372,7 @@ app.post('/atualizarAluno', upload.single('img'), (req, res)=> {
     const UpAluno = "update aluno_tb set nome= ?, senha= ?, turma_aluno= ?, image_aluno= ? where ra= ?;";
     const UpAlunoNoimg = "update aluno_tb set nome= ?, senha= ?, turma_aluno= ? where ra= ?;";
     if(typeof req.file !== 'undefined'){
-        con.query(UpAluno, [nome, senha, turma, req.file.originalname, ra], (err, row)=>{
+        con.query(UpAluno, [nome, senha, turma, req.body.ra+'.jpg', ra], (err, row)=>{
             if(!err){
                 con.query(selectAluno, (err, rows) => {
                     if (!err) {

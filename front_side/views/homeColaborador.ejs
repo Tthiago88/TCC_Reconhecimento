@@ -21,92 +21,94 @@
             </form>
         </div>
     </nav>
-    <div class="geral">
-        <% if (typeof menssagem !== 'undefined') { %>
-            <div class="alert alert-success" role="alert">
-                <%= menssagem %> 
-            </div>
-        <% } %>
-        <h1 class="title">Alunos</h1>
-        <form action="/listarAluno" method="post">
-            <div class="home">
-                <div class="form">
-                    <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
-                    <% if(typeof repassAluno !== 'undefined'){%>
-                        <input type="ra" class="form-control" id="exampleFormControlInput1" value="<%= repassAluno %>" name="raAluno" required></input>
-                    <% }else{ %>
-                        <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="raAluno" required></input>
-                    <% }; %> 
+    <div class="tudo">
+        <div class="geral">
+            <% if (typeof menssagem !== 'undefined') { %>
+                <div class="alert alert-success" role="alert">
+                    <%= menssagem %> 
                 </div>
-                <div class="button-enviar">
-                    <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
-                </div>
-        </form>
-    </div>
-    <div class="table-dados">
-        <table class="table table-bordered" >
-            <tr>
-                <th>   NOME  </th>
-                <th>   RA   </th>
-                <th>  TURMA  </th>
-            </tr>
-            <form action="/telaUpdate" method="post">
-                <% listaAluno.forEach(function(listaAluno){ %>
-                    <tr>
-                        <td><input type="hidden" name="upNome" value="<%= listaAluno.nome %>"><%= listaAluno.nome %></td>
-                        <td><input type="hidden" name="upRa" value="<%= listaAluno.RA %>"><%= listaAluno.RA %></td>
-                        <td><input type="hidden" name="lTurma" value="<%= listaAluno.turma_aluno %>"><%= listaAluno.turma_aluno %></td>
-                        <% if(typeof btn !== 'undefined' && btn == true){ %>
-                        <td><button class="btn-enviar btn btn-outline-secondary" type="submit">Alterar</button></td>
-                        <td><button class="btn-enviar btn btn-outline-secondary" type="submit" formaction="/excluirAluno" onclick="return confirm('Você tem certeza que quer excluir esse cadastro?')">Excluir</button></td>
+            <% } %>
+            <h1 class="title">Alunos</h1>
+            <form action="/listarAluno" method="post">
+                <div class="home">
+                    <div class="form">
+                        <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
+                        <% if(typeof repassAluno !== 'undefined'){%>
+                            <input type="ra" class="form-control" id="exampleFormControlInput1" value="<%= repassAluno %>" name="raAluno" required></input>
+                        <% }else{ %>
+                            <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="raAluno" required></input>
                         <% }; %> 
-                    </tr>    
-                <% }); %>
+                    </div>
+                    <div class="button-enviar">
+                        <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
+                    </div>
             </form>
-        </table>
-    </div>    
-    </div>
-    <div class="geral">
-        <% if (typeof menssagemP !== 'undefined') { %>
-            <div class="alert alert-success" role="alert">
-                <%= menssagemP %> 
-            </div>
-        <% } %>
-        <h1 class="title">Professores</h1>
-        <form action="/listarProf" method="post">
-            <div class="home">
-                <div class="form">
-                    <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
-                    <% if(typeof repassProf !== 'undefined'){%>
-                    <input type="ra" class="form-control" id="exampleFormControlInput1" value="<%= repassProf %> " name="raProf"required></input>
-                    <% }else{ %>
-                        <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="raProf"required></input>
-                    <% }; %>      
-                </div>
-                <div class="button-enviar">
-                    <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
-                </div>
-            </div>
-        </form>
+        </div>
         <div class="table-dados">
             <table class="table table-bordered" >
                 <tr>
-                    <th>NOME</th>
-                    <th>RA</th>
+                    <th>   NOME  </th>
+                    <th>   RA   </th>
+                    <th>  TURMA  </th>
                 </tr>
-                <form action="/ToUpdateProfessor" method="post">
-                    <% listaProf.forEach(function(listaProf){ %> 
-                        <tr>   
-                            <td><input type="hidden" name="upPnome" value="<%= listaProf.nome %>"><%= listaProf.nome %></td>
-                            <td><input type="hidden" name="upPra" value="<%= listaProf.RA %>"><%= listaProf.RA %></td>
-                            <% if(typeof btnpro !== 'undefined' && btnpro == true){ %>
-                                <td><button class="btn-enviar btn btn-outline-secondary" type="submit">Alterar</button></td>
-                                <td><button class="btn-enviar btn btn-outline-secondary" type="submit" formaction="/excluirProfessor" onclick="return confirm('Você tem certeza que quer excluir esse cadastro?')">Excluir</button></td>
-                            <% } %>     
-                        </tr>
-                        <% }); %>
-                </form> 
-            </table>   
+                <form action="/telaUpdate" method="post">
+                    <% listaAluno.forEach(function(listaAluno){ %>
+                        <tr>
+                            <td><input type="hidden" name="upNome" value="<%= listaAluno.nome %>"><%= listaAluno.nome %></td>
+                            <td><input type="hidden" name="upRa" value="<%= listaAluno.RA %>"><%= listaAluno.RA %></td>
+                            <td><input type="hidden" name="lTurma" value="<%= listaAluno.turma_aluno %>"><%= listaAluno.turma_aluno %></td>
+                            <% if(typeof btn !== 'undefined' && btn == true){ %>
+                            <td><button class="btn-enviar btn btn-outline-secondary" type="submit">Alterar</button></td>
+                            <td><button class="btn-enviar btn btn-outline-secondary" type="submit" formaction="/excluirAluno" onclick="return confirm('Você tem certeza que quer excluir esse cadastro?')">Excluir</button></td>
+                            <% }; %> 
+                        </tr>    
+                    <% }); %>
+                </form>
+            </table>
+        </div>    
         </div>
-    </div>
+        <div class="geral">
+            <% if (typeof menssagemP !== 'undefined') { %>
+                <div class="alert alert-success" role="alert">
+                    <%= menssagemP %> 
+                </div>
+            <% } %>
+            <h1 class="title">Professores</h1>
+            <form action="/listarProf" method="post">
+                <div class="home">
+                    <div class="form">
+                        <label for="exampleFormControlInput1" class="form-label">RA (Número da Matrícula)</label>
+                        <% if(typeof repassProf !== 'undefined'){%>
+                        <input type="ra" class="form-control" id="exampleFormControlInput1" value="<%= repassProf %> " name="raProf"required></input>
+                        <% }else{ %>
+                            <input type="ra" class="form-control" id="exampleFormControlInput1" placeholder="Digite o RA" name="raProf"required></input>
+                        <% }; %>      
+                    </div>
+                    <div class="button-enviar">
+                        <button class="btn-enviar btn btn-outline-secondary" type="submit">Consultar</button>
+                    </div>
+                </div>
+            </form>
+            <div class="table-dados">
+                <table class="table table-bordered" >
+                    <tr>
+                        <th>NOME</th>
+                        <th>RA</th>
+                    </tr>
+                    <form action="/ToUpdateProfessor" method="post">
+                        <% listaProf.forEach(function(listaProf){ %> 
+                            <tr>   
+                                <td><input type="hidden" name="upPnome" value="<%= listaProf.nome %>"><%= listaProf.nome %></td>
+                                <td><input type="hidden" name="upPra" value="<%= listaProf.RA %>"><%= listaProf.RA %></td>
+                                <% if(typeof btnpro !== 'undefined' && btnpro == true){ %>
+                                    <td><button class="btn-enviar btn btn-outline-secondary" type="submit">Alterar</button></td>
+                                    <td><button class="btn-enviar btn btn-outline-secondary" type="submit" formaction="/excluirProfessor" onclick="return confirm('Você tem certeza que quer excluir esse cadastro?')">Excluir</button></td>
+                                <% } %>     
+                            </tr>
+                            <% }); %>
+                    </form> 
+                </table>   
+            </div>
+        </div>
+    </div>    
 </body>

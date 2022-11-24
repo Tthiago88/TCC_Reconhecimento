@@ -2,7 +2,8 @@
     margin: 0 auto;
     padding: 1rem;
     margin-bottom: 2rem;
-    max-width: 60%;
+    max-width: 48%;
+    min-width: 48%;
     border-radius: .5rem;
     border: 1px solid #aaa;
 }
@@ -67,4 +68,8 @@
     position: sticky;
     top: -.1px;
     background-color: #fff;
+}
+
+.tudo{
+    display:flex;
 }
