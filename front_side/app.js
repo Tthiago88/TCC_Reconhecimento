@@ -223,6 +223,10 @@ app.post('/voltar', async (req, res) => {
     res.redirect('/presenca')
 });
 
+app.post('/voltarHome', async (req, res) => {
+    res.redirect('/listarHome')
+});
+
 app.post('/sair', async (req, res) => {
     console.log("Usuário deslogou")
     res.redirect('/')
