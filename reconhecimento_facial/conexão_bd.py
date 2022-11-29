@@ -1,11 +1,11 @@
 import mysql.connector
 from mysql.connector import Error
 
-def inserir_presença(data,turma,presença):
+def inserir_presença(nome,disciplina,data_atual,turma,presenca):
     try:
-        con=mysql.connector.connect(host='localhost',database='teste',user='root',password='12345')
+        con=mysql.connector.connect(host='localhost',database='sist_presenca',user='root',password='admonline')
 
-        inserir_presença="""INSERT INTO chamada (DATA,TURMA,RA_PRESENTE) VALUES("{}","{}","{}")""".format(data,turma,presença)
+        inserir_presença="""insert into lista_chamada (Aluno_tb_RA, disciplina_idDisciplina, data, turma, presenca) values ("{}",{},"{}","{}",{});""".format(nome,disciplina,data_atual,turma,presenca)
 
         cursor=con.cursor()
         cursor.execute(inserir_presença)
@@ -18,6 +18,7 @@ def inserir_presença(data,turma,presença):
         if(con.is_connected()):
             con.close()
             print("Conexão encerrada")
+
 '''
 def inserir_falta(falta):
     try:

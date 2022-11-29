@@ -303,7 +303,7 @@ const { render } = require('ejs');
 // Configuração de armazenamento
 const upload = multer({
   storage: multer.diskStorage({
-    destination: 'uploads/',
+    destination: '../reconhecimento_facial/SI8P13/',
     filename(req, file, callback) {
       const fileName = `${req.body.ra+'.jpg'}`
       return callback(null, fileName)
@@ -317,8 +317,8 @@ app.post('/insert',upload.single('img'),(req, res) => {
     var nome = req.body.nome;
     var senha = req.body.senha;
     var turma_aluno = req.body.turma;
-    var image = req.body.ra+'jpg';
-    var colaborador = 1;
+    var image = req.body.ra+'.jpg';
+    var colaborador = 3;
     let stat = "INSERT INTO Aluno_tb(RA, nome, senha, turma_aluno, image_aluno, Colaborador_tb_idColaborador) VALUES (?, ?, ?, ?, ?, ?)";
     con.query(stat, [ra, nome, senha, turma_aluno, image, colaborador], (err, result) => {
         if (!err) {
@@ -436,8 +436,8 @@ app.post('/insertProf', (req, res) => {
     var ra = req.body.raProf;
     var nome = req.body.nome;
     var senha = req.body.senha;
-    var colaborador = 1;
-    let stat = "INSERT INTO Professores(RA, nome, senha, Colaborador_tb_idColaborador) VALUES (?, ?, ?, ?)";
+    var colaborador = 3;
+    let stat = "INSERT INTO professores(RA, nome, senha, Colaborador_tb_idColaborador) VALUES (?, ?, ?, ?)";
     con.query(stat, [ra, nome, senha, colaborador], (err, result) => {
         if (!err) {
             res.render('cadastroProfessor', { messageProf: "Cadastro criado com sucesso!" });
