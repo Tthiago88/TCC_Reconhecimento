@@ -202,12 +202,10 @@ app.post('/validarTabela', async function(req,res){
         var month = parseInt(mdy[1]);
         var year = parseInt(mdy[2]);
         let newData = [year+'-'+month+'-'+day];
-        // console.log(typeof ra[i]);
-        const pron = await con.promise().query(validar, [ra[i], newData])
-        var idDisciplina = idDis[0][0].idDisciplina;  
-        console.log(idDisciplina) 
         
-        // console.log(pron[0]?.[0]?.Aluno_tb_RA);
+        const pron = await con.promise().query(validar, [ra[i], newData])
+        var idDisciplina = idDis[0][0].idDisciplina;
+    
         if(typeof pron?.[0]?.[0]?.Aluno_tb_RA !== 'undefined'){
             const update= await con.promise().query("update lista_chamada set disciplina_idDisciplina = '"+idDisciplina+"',presenca='"+presenca[i]+"' where Aluno_tb_RA= '"+ra[i]+"'and data='"+newData+"';")
             console.log("RA: "+ra[i]+" alterado.");

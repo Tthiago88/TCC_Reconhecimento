@@ -63,10 +63,10 @@
                         <td> <input type="hidden" name="lnome" value="<%= lista.nome %>"> <%= lista.nome %> </td>
                         <td> <input type="hidden" name="lra" value="<%= lista.RA %>"> <%= lista.RA %> </td>
                         <td> <input type="hidden" name="lturma" value="<%= lista.turma_aluno %>"><%= lista.turma_aluno %> </td>
-                        <% if(lista.nome_disciplina != null){%> 
+                        <% if(lista.nome_disciplina !== null){%> 
                             <td> <input type="hidden" name="ldisciplina" value="<%= lista.nome_disciplina %>"><%= lista.nome_disciplina %></td>
                             <% }else{ %>
-                                <td><input type="hidden" name="ldisciplina" value="vazio"> Vazio</td>
+                                <td><input type="hidden" name="ldisciplina" value="vazio"> Selecione uma disciplina</td>
                             <% } %>
                         <% if(lista.data != null){%>
                             <td> <input type="hidden" name="ldata" value="<%= lista.data %>"><%= lista.data %></td>

@@ -55,7 +55,11 @@
                         <td><%= resultado.RA %> </td>
                         <td><%= resultado.turma %> </td>
                         <td><%= resultado.nome_disciplina %> </td>
-                        <td><%= resultado.presenca %> </td>  
+                        <% if(resultado.presenca == 1){ %> 
+                        <td>Presente </td>
+                        <% }else{%>
+                            <td>Faltou </td>
+                        <%}; %>   
                 </tr>
                 <% }); %>
                 <% }; %>

@@ -117,7 +117,7 @@ def main(args):
                 if (image_desconhecido[0]):
                     rosto_desconhecido.append(image_desconhecido[1][0])
                     #rostos_conhecidos, nomes_reconhecidos = get_rostos() 
-                    resultados = fr.compare_faces(rostos_conhecidos, rosto_desconhecido, tolerance=0.6)
+                    resultados = fr.compare_faces(rostos_conhecidos, rosto_desconhecido)
                     #print(resultados)
                     nomes_reconhecidos.clear()
                     rosto_desconhecido.clear()
